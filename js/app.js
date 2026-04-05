@@ -18,7 +18,7 @@ let epubRendition = null;
 let epubTotalPages = 0;
 let epubCurrentPage = 0;
 let epubFontSize = 16;
-const EPUB_FILE_PATH = '/assets/book-files/huyen-tuong-demo/';
+const EPUB_FILE_PATH = 'assets/book-files/huyen-tuong-demo/';
 
 // =============================================
 // IMAGE URL NORMALIZATION (Rule: /auto-normalize-images)
