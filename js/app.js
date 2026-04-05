@@ -18,7 +18,7 @@ let epubRendition = null;
 let epubTotalPages = 0;
 let epubCurrentPage = 0;
 let epubFontSize = 16;
-const EPUB_FILE_PATH = '/assets/book-files/Huyen tuong thuong de - Richard Dawkins.epub';
+const EPUB_FILE_PATH = '/assets/book-files/huyen-tuong-demo/';
 
 // =============================================
 // IMAGE URL NORMALIZATION (Rule: /auto-normalize-images)
@@ -546,66 +546,63 @@ function openReader(epubUrl) {
     epubRendition = null;
   }
 
-  // Complete UI update before heavy EPUB parsing blocks the main thread
-  setTimeout(() => {
-    // Force all books to use the demo EPUB file
-    const url = EPUB_FILE_PATH;
-    epubBook = ePub(url, { openAs: 'epub' });
+  // Load Unarchived EPUB directly via URL point (Instantly loads without JSZip memory overhead)
+  const url = EPUB_FILE_PATH;
+  epubBook = ePub(url);
 
-    // Create rendition
-    epubRendition = epubBook.renderTo('epub-viewer', {
-      width: '100%',
-      height: '100%',
-      spread: 'auto',
-      flow: 'paginated',
-      manager: 'continuous' // Better performance for paginated flow
-    });
+  // Create rendition
+  epubRendition = epubBook.renderTo('epub-viewer', {
+    width: '100%',
+    height: '100%',
+    spread: 'auto',
+    flow: 'paginated',
+    manager: 'default' // Default manager is faster for initial load
+  });
 
-    // Set initial font size
-    epubRendition.themes.fontSize(epubFontSize + 'px');
+  // Set initial font size
+  epubRendition.themes.fontSize(epubFontSize + 'px');
 
-    // Apply custom theme for elegant reading
-    epubRendition.themes.default({
-      'body': {
-        'font-family': '"Roboto", "Georgia", serif !important',
-        'color': '#2D2D2D !important',
-        'background': '#FFFCF5 !important',
-        'line-height': '1.85 !important',
-        'padding': '20px 28px !important'
-      },
-      'p': {
-        'text-align': 'justify !important',
-        'margin-bottom': '14px !important',
-        'text-indent': '24px !important'
-      },
-      'h1, h2, h3': {
-        'font-family': '"Roboto", sans-serif !important',
-        'color': '#352B2B !important',
-        'border-bottom': '2px solid #FFC300 !important',
-        'padding-bottom': '8px !important',
-        'margin-bottom': '18px !important'
-      },
-      'a': {
-        'color': '#2F69FD !important'
-      }
-    });
+  // Apply custom theme for elegant reading
+  epubRendition.themes.default({
+    'body': {
+      'font-family': '"Roboto", "Georgia", serif !important',
+      'color': '#2D2D2D !important',
+      'background': '#FFFCF5 !important',
+      'line-height': '1.85 !important',
+      'padding': '20px 28px !important'
+    },
+    'p': {
+      'text-align': 'justify !important',
+      'margin-bottom': '14px !important',
+      'text-indent': '24px !important'
+    },
+    'h1, h2, h3': {
+      'font-family': '"Roboto", sans-serif !important',
+      'color': '#352B2B !important',
+      'border-bottom': '2px solid #FFC300 !important',
+      'padding-bottom': '8px !important',
+      'margin-bottom': '18px !important'
+    },
+    'a': {
+      'color': '#2F69FD !important'
+    }
+  });
 
-    // Display first page
-    epubRendition.display().then(() => {
-      if (loading) loading.style.display = 'none';
-      updatePageIndicator();
-    });
+  // Display first page
+  epubRendition.display().then(() => {
+    if (loading) loading.style.display = 'none';
+    updatePageIndicator();
+  });
 
-    // Load TOC
-    epubBook.loaded.navigation.then(nav => {
-      renderToc(nav.toc);
-    });
+  // Load TOC
+  epubBook.loaded.navigation.then(nav => {
+    renderToc(nav.toc);
+  });
 
-    // Update page numbers on relocation
-    epubRendition.on('relocated', (location) => {
-      updatePageIndicator(location);
-    });
-  }, 50);
+  // Update page numbers on relocation
+  epubRendition.on('relocated', (location) => {
+    updatePageIndicator(location);
+  });
 }
 
 /**
