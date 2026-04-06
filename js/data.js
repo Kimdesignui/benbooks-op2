@@ -99,7 +99,7 @@ const AUTHORS_LIST = [
 
 const LANGUAGES = ["Tiếng Việt", "Tiếng Anh", "Tiếng Trung"];
 
-const AGE_GROUPS = ["Dưới 6 tuổi", "6 - 10 tuổi", "10 - 15 tuổi", "Trên 15 tuổi"];
+const AGE_GROUPS = ["Dưới 5 tuổi", "6-11 tuổi", "12 -15 tuổi", "15 - 18 tuổi", "Trên 18 tuổi"];
 
 // Simulated book content for Reader Mode
 const SAMPLE_BOOK_CONTENT = `

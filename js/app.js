@@ -87,13 +87,13 @@ function navigateTo(page, data) {
 
   // Show/hide header, footer, floating based on page
   if (page === 'sms') {
-    if (header) header.style.display = 'none';
-    if (footer) footer.style.display = 'none';
-    if (floating) floating.style.display = 'none';
+    if (header) header.classList.add('d-none');
+    if (footer) footer.classList.add('d-none');
+    if (floating) floating.classList.add('d-none');
   } else {
-    if (header) header.style.display = '';
-    if (footer) footer.style.display = '';
-    if (floating) floating.style.display = '';
+    if (header) header.classList.remove('d-none', 'hidden-init');
+    if (footer) footer.classList.remove('d-none', 'hidden-init');
+    if (floating) floating.classList.remove('d-none', 'hidden-init');
   }
 
   const target = document.getElementById(`page-${page}`);
@@ -227,7 +227,7 @@ function createSidebarHTML({ compact = false, accordion = true } = {}) {
   if (typeof CATEGORIES !== 'undefined') {
     CATEGORIES.forEach((cat, ci) => {
       html += `<div class="sidebar-section">
-        <div class="sidebar-section-title"><i class="bi bi-journal-bookmark"></i> ${cat.title}</div>`;
+        <div class="sidebar-section-title">${cat.title}</div>`;
 
       if (accordion && !compact) {
         html += `<div class="accordion accordion-flush" id="sidebarAcc${ci}">`;
@@ -241,7 +241,7 @@ function createSidebarHTML({ compact = false, accordion = true } = {}) {
               </button>
             </h2>
             <div id="${cid}" class="accordion-collapse collapse ${first ? 'show' : ''}" data-bs-parent="#sidebarAcc${ci}">
-              <div class="accordion-body">${item.children.map(c => `<a class="sidebar-link" href="#">└ ${c}</a>`).join('')}</div>
+              <div class="accordion-body">${item.children.map(c => `<a class="sidebar-link" href="#">${c}</a>`).join('')}</div>
             </div>
           </div>`;
         });
@@ -258,7 +258,7 @@ function createSidebarHTML({ compact = false, accordion = true } = {}) {
   }
 
   if (typeof TOPICS !== 'undefined') {
-    html += `<div class="sidebar-section"><div class="sidebar-section-title"><i class="bi bi-grid-3x3-gap"></i> CHỦ ĐỀ</div>`;
+    html += `<div class="sidebar-section"><div class="sidebar-section-title">CHỦ ĐỀ</div>`;
     if (compact) {
       TOPICS.forEach(t => { html += `<a class="sidebar-link" href="#">${t}</a>`; });
     } else {
@@ -275,14 +275,14 @@ function createSidebarHTML({ compact = false, accordion = true } = {}) {
   }
 
   if (typeof AGE_GROUPS !== 'undefined' && !compact) {
-    html += `<div class="sidebar-section"><div class="sidebar-section-title"><i class="bi bi-people"></i> ĐỘ TUỔI</div><ul class="topic-list">`;
+    html += `<div class="sidebar-section"><div class="sidebar-section-title">ĐỘ TUỔI</div><ul class="topic-list">`;
     AGE_GROUPS.forEach(a => { html += `<li><a href="#">${a}</a></li>`; });
     html += '</ul></div>';
   }
 
   if (typeof LANGUAGES !== 'undefined') {
-    html += `<div class="sidebar-section"><div class="sidebar-section-title"><i class="bi bi-translate"></i> THEO NGÔN NGỮ</div>`;
-    LANGUAGES.forEach((l, i) => { html += `<a class="sidebar-link ${i === 0 ? 'active' : ''}" href="#">${l}</a>`; });
+    html += `<div class="sidebar-section"><div class="sidebar-section-title">THEO NGÔN NGỮ</div>`;
+    LANGUAGES.forEach((l, i) => { html += `<a class="language-link ${i === 0 ? 'active' : ''}" href="#">${l}</a>`; });
     html += '</div>';
   }
 
@@ -741,6 +741,25 @@ function bindAllEvents() {
     if (target.closest('#btn-go-library')) {
       handleGoLibrary();
       return;
+    }
+
+    // Toggle Mobile Sidebar
+    if (target.closest('#btn-mobile-menu-btn')) {
+      const sidebar = document.getElementById('sidebar-content');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (sidebar) sidebar.classList.toggle('active');
+      if (overlay) overlay.classList.toggle('active');
+      return;
+    }
+
+    // Close Mobile Sidebar if clicking outside OR clicking the overlay
+    const currentSidebar = document.getElementById('sidebar-content');
+    if (currentSidebar && currentSidebar.classList.contains('active')) {
+      if (!target.closest('#sidebar-content') && !target.closest('#btn-mobile-menu-btn') || target.closest('#sidebar-overlay')) {
+        currentSidebar.classList.remove('active');
+        const overlay = document.getElementById('sidebar-overlay');
+        if (overlay) overlay.classList.remove('active');
+      }
     }
 
     // Header logo → homepage

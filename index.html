@@ -57,20 +57,43 @@
   <!-- ═══════════════════════════════════════════
        SHARED: HEADER (Yellow)
        ═══════════════════════════════════════════ -->
-  <header class="site-header" id="site-header" style="display:none">
+  <header class="site-header hidden-init" id="site-header">
     <div class="container-1440">
       <div class="header-inner">
+        <!-- Row 1: Logo (Left) and Mobile Actions (Right) -->
         <a href="#" class="header-logo">
           <img src="assets/img/benbooks-logo.svg" alt="BenBooks">
         </a>
-        <div class="header-search">
-          <input type="text" id="header-search-input" placeholder="Nhập từ khóa tìm kiếm...">
-          <button class="btn-search"><i class="bi bi-search"></i></button>
+        <div class="header-mobile-right">
+           <img src="assets/img/vip-icon.svg" class="vip-badge-icon" alt="VIP">
+           <div class="divider-vertical"></div>
+           <a href="#" class="btn-user-avatar-mobile" id="btn-user-mobile"><i class="bi bi-person-fill"></i></a>
         </div>
+
+        <!-- Row 2: Hamburger + Search Wrapper -->
+        <div class="header-search-wrapper">
+          <button class="btn-mobile-menu" aria-label="Menu" id="btn-mobile-menu-btn"><i class="bi bi-list"></i></button>
+          <div class="header-search-container">
+            <div class="header-search">
+              <input type="text" id="header-search-input" placeholder="Nhập từ khóa tìm kiếm">
+              <button class="btn-search"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop khu vực Action bên phải -->
         <div class="header-actions">
-          <div class="header-hotline"><i class="bi bi-telephone-fill"></i> Hotline: <strong>0382832993</strong></div>
-          <button class="btn-goicuoc" id="btn-goicuoc-header"><i class="bi bi-diamond-fill"></i> Gói Cước</button>
-          <a href="#" class="btn-user-avatar" id="btn-user"><i class="bi bi-person-fill"></i></a>
+          <div class="header-hotline">
+            <i class="bi bi-telephone-inbound"></i>
+            <div class="hotline-text">
+               <span class="hotline-lbl">Hotline:</span>
+               <strong>0382832993</strong>
+            </div>
+          </div>
+          <button class="btn-goicuoc" id="btn-goicuoc-header">
+            <img src="assets/img/vip-icon.svg" class="vip-img-icon" alt="VIP"> Gói Cước
+          </button>
+          <a href="#" class="btn-user-avatar" id="btn-user-desktop"><i class="bi bi-person-fill"></i></a>
         </div>
       </div>
     </div>
@@ -84,6 +107,9 @@
       <div class="main-layout">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar-content"></aside>
+        
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -404,7 +430,7 @@
       <div class="modal-content">
         <div class="modal-header"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
         <div class="modal-body modal-success text-center">
-          <div class="vip-icon-circle"><span>V</span></div>
+          <img src="assets/img/vip-icon.svg" alt="VIP" style="width: 64px; height: auto; margin-bottom: 16px;">
           <h4 class="title-hoivien">Chào mừng đến với gói đọc Benbooks<br>dành cho hội viên</h4>
           <p class="time-remaining">Thời Gian Còn Lại: <strong>31 Ngày</strong></p>
           <button class="btn-activate mt-2" id="btn-go-library">VÀO ĐỌC SÁCH</button>
@@ -416,33 +442,60 @@
   <!-- ═══════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════ -->
-  <footer class="site-footer" id="site-footer" style="display:none">
+  <footer class="site-footer hidden-init" id="site-footer">
     <div class="footer-inner container-1440">
       <div class="footer-grid">
         <div class="footer-col footer-company-info">
           <h5>Công ty cổ phần Văn hóa và Bản quyền Benito</h5>
-          <p>(Hoạt động từ 8h - 17h, Thứ 2 - Thứ 7)</p>
-          <p><i class="bi bi-geo-alt-fill"></i> 2BD2 Khu giãn dân Yên Phúc, Hà Đông, Hà Nội</p>
-          <p><i class="bi bi-telephone-fill"></i> Hotline: <strong>0888 080 290</strong></p>
-          <p><i class="bi bi-envelope-fill"></i> Email: haianh.pham@benitovn.com</p>
-          <p><i class="bi bi-credit-card-fill"></i> Mã số thuế: 0109653575</p>
-          <div class="footer-app-badges">
-            <img src="assets/img/download-ios.svg" alt="App Store">
-            <img src="assets/img/download-chplay.svg" alt="Google Play">
+          <p class="company-time">(Hoạt động từ 8h - 17h, Thứ 2 - Thứ 7)</p>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+            <p>2BD2 Khu giãn dân Yên Phúc, Hà Đông, Hà Nội</p>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+            <p>Hotline: <strong>0888 080 290</strong></p>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+            <p>Email: haianh.pham@benitovn.com</p>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-file-earmark-text"></i></div>
+            <p>Mã số thuế: 0109653575</p>
           </div>
         </div>
-        <div class="footer-col">
+        <div class="footer-col footer-nav-group">
           <h5>Hỗ trợ khách hàng</h5>
-          <ul><li><a href="#">Hướng dẫn đọc sách ebook</a></li><li><a href="#">Hướng dẫn thuê sách ebook</a></li><li><a href="#">Hướng dẫn đăng ký tài khoản</a></li></ul>
+          <ul>
+            <li><a href="#">Hướng dẫn đọc sách ebook</a></li>
+            <li><a href="#">Hướng dẫn thuê sách ebook</a></li>
+            <li><a href="#">Hướng dẫn đăng ký tài khoản</a></li>
+          </ul>
         </div>
-        <div class="footer-col">
+        <div class="footer-col footer-nav-group">
           <h5>Chính sách - điều khoản</h5>
-          <ul><li><a href="#">Chính sách bảo mật</a></li><li><a href="#">Điều khoản sử dụng</a></li></ul>
+          <ul>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+          </ul>
         </div>
-        <div class="footer-col">
+        <div class="footer-col footer-nav-group">
           <h5>Về chúng tôi</h5>
-          <ul><li><a href="#">Giới thiệu</a></li><li><a href="#">Liên hệ</a></li></ul>
-          <div class="footer-cert"><img src="assets/img/bo-cong-thuong.png" alt="Bộ Công Thương"></div>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Liên hệ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <div class="app-downloads">
+          <img src="assets/img/download-ios.svg" alt="App Store">
+          <img src="assets/img/download-chplay.svg" alt="Google Play">
+        </div>
+        <div class="footer-cert">
+          <img src="assets/img/bo-cong-thuong.png" alt="Bộ Công Thương">
         </div>
       </div>
     </div>
@@ -450,7 +503,7 @@
   </footer>
 
   <!-- Floating Actions -->
-  <div class="floating-actions" id="floating-actions" style="display:none">
+  <div class="floating-actions hidden-init" id="floating-actions">
     <button class="floating-btn messenger"><img src="assets/img/messenger.svg" alt="Messenger"></button>
     <button class="floating-btn zalo"><img src="assets/img/zalo.svg" alt="Zalo"></button>
     <button class="floating-btn scroll-top" id="btn-scroll-top"><i class="bi bi-chevron-up"></i></button>
