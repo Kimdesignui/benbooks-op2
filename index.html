@@ -268,12 +268,11 @@
             <!-- Author & Publisher Section -->
             <div class="row gx-4 mb-4 author-publisher-row">
               <div class="col-md-6 mb-3 mb-md-0">
-                <div class="author-pub-block">
+                <div class="author-pub-block" style="background:#fff">
                   <span class="ap-label">Tác giả</span>
                   <div class="ap-content">
                     <div class="d-flex align-items-center">
-                      <img src="assets/images/author-avatar-placeholder.jpg" class="author-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                      <div class="author-avatar-fallback">EC</div>
+                      <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100" class="author-avatar-img" alt="Elizabeth Cole" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
                       <div class="ms-3">
                         <div class="author-name-row">
                           <strong id="detail-author-name">Elizabeth Cole</strong>
@@ -286,7 +285,7 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="author-pub-block">
+                <div class="author-pub-block" style="background:#fff">
                   <span class="ap-label">Được bán bởi:</span>
                   <div class="ap-content">
                     <div class="d-flex align-items-center">
@@ -345,7 +344,6 @@
                   <div class="tab-content-body" id="detail-book-desc">
                     <strong>Cơ thể siêu rắc rối</strong><br><br>Nhấn xem đầy đủ để hiển thị mô tả chi tiết của sách.
                   </div>
-                  <a href="#" class="see-more-down"><i class="bi bi-chevron-down"></i> Xem đầy đủ</a>
                 </div>
                 <div class="tab-pane fade" id="tab-toc">
                   <div class="tab-content-body" id="detail-book-toc">
@@ -380,10 +378,11 @@
                     </div>
                   </div>
                 </div>
-                
-                <div class="comment-input-box mt-3">
-                  <textarea rows="3" placeholder="Mời Bạn để lại bình luận..."></textarea>
-                  <div class="text-end mt-2 me-2 mb-2"><button class="btn-comment-submit">Gửi bình luận</button></div>
+                <div class="comment-input-wrapper text-center mt-4">
+                  <div class="comment-input-box mb-3 text-start">
+                    <textarea rows="3" placeholder="Mời Bạn để lại bình luận..."></textarea>
+                  </div>
+                  <button class="btn-comment-submit">Gửi bình luận</button>
                 </div>
               </div>
             </div>

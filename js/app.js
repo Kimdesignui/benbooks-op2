@@ -64,7 +64,15 @@ function validateImageUrl(url) {
 // =============================================
 document.addEventListener('DOMContentLoaded', () => {
   bindAllEvents();
-  // App starts on SMS screen — header/footer hidden
+  // Khởi tạo trang nếu đang view thẳng bằng HTML standalone
+  if (document.body.getAttribute('data-page') === 'detail') {
+    const dummyBook = typeof BOOKS_DATA !== 'undefined' && BOOKS_DATA.length ? BOOKS_DATA[0] : {};
+    if (typeof renderBookDetail === 'function') renderBookDetail(dummyBook);
+    if (typeof renderRelatedBooks === 'function') renderRelatedBooks(dummyBook);
+    if (typeof renderSuggestedBooks === 'function') renderSuggestedBooks(dummyBook);
+    if (typeof renderDetailSidebar === 'function') renderDetailSidebar();
+  }
+  // App starts on SMS screen — header/footer hidden (SPA)
 });
 
 // =============================================
@@ -300,7 +308,7 @@ function renderSidebar() {
 function renderDetailSidebar() {
   const el = document.getElementById('detail-sidebar-content');
   if (!el) return;
-  el.innerHTML = createSidebarHTML({ compact: true, accordion: false });
+  el.innerHTML = createSidebarHTML({ compact: false, accordion: true });
 }
 
 /**
@@ -477,11 +485,34 @@ function renderBookDetail(book) {
     </div>`).join('');
   }
 
-  // Description with toggle
+  // Description with toggle removed (as requested by user)
   const descEl = document.getElementById('detail-book-desc');
   if (descEl) {
-    descEl.innerHTML = `<div class="desc-content desc-collapsed">${book.description || 'Nội dung chi tiết về cuốn sách.'}</div>
-    <a href="#" class="see-more-link" data-action="toggle-description"><i class="bi bi-chevron-down"></i> Xem thêm</a>`;
+    const longDesc = `
+      <p>Là một cuốn sách hay không chỉ về tình mẫu tử thiêng liêng mà còn bởi những kỹ năng nuôi dạy con khôn khéo, tuyệt vời mà nữ tác giả Dương Vãn mang tới cho độc giả.</p>
+      <p>Một cô thợ may trở thành sinh viên đại học, đi du học ở Anh, là giảng viên của một trường đại học, là thạc sĩ rồi giáo sư, trở thành chủ tịch hội đồng quản trị của một trong những học viện nổi tiếng...</p>
+      <p>Một cậu bé thông minh, ham đọc sách từ nhỏ, luôn vui vẻ, say mê khám phá, là học sinh giỏi, trở thành sinh viên rồi tiến sĩ của trường Cambridge... Đó chính là quá trình đồng hành cùng con trai của Dương Vãn.</p>
+      <p>Việc kiên trì quan điểm giáo dục tố chất, giáo dục vui vẻ đã giúp người mẹ này bồi dưỡng nên một tiến sĩ Cambridge vui vẻ, lương thiện, toàn diện. Đặc biệt là khi con trai trưởng thành thì người mẹ cũng tỏa sáng.</p>
+      <p>Mẹ luôn đồng hành cùng con không chỉ là lý luận giáo dục tố chất gia đình của một chuyên gia giáo dục mà còn là sự tổng kết kinh nghiệm dạy con của một người mẹ yêu con một cách khoa học.</p>
+    `;
+    descEl.innerHTML = `<div class="desc-content"><strong>${book.title}</strong><br><br>${longDesc}</div>`;
+  }
+  
+  // TOC Demo as requested
+  const tocEl = document.getElementById('detail-book-toc');
+  if (tocEl) {
+     tocEl.innerHTML = `
+      <table class="table table-borderless toc-table mb-0" style="color: var(--text-dark);">
+        <tbody>
+          <tr><td style="width: 80px; font-weight:600; padding-left:0;">Phần 1:</td><td style="font-weight:600;">Khởi đầu hành trình</td></tr>
+          <tr><td style="padding-left:0;"></td><td>Chương 1: Khám phá bản thân</td></tr>
+          <tr><td style="padding-left:0;"></td><td>Chương 2: Xây dựng nền tảng</td></tr>
+          <tr><td style="width: 80px; font-weight:600; padding-left:0;">Phần 2:</td><td style="font-weight:600;">Vượt qua thử thách</td></tr>
+          <tr><td style="padding-left:0;"></td><td>Chương 3: Đối mặt với khó khăn</td></tr>
+          <tr><td style="padding-left:0;"></td><td>Chương 4: Trưởng thành</td></tr>
+        </tbody>
+      </table>
+     `;
   }
 
   // Author
