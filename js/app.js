@@ -373,7 +373,7 @@ function createBookCard(book) {
     : '';
   const fallback = `<div class="book-cover-fallback" style="background:${book.coverColor||'#8B7355'};display:${coverSrc?'none':'flex'}"><span>${book.title}</span></div>`;
 
-  const vipTagSrc = normalizeImageUrl('assets/img/tag-hoi-vien.svg');
+  const vipTagSrc = normalizeImageUrl('assets/images/tag-hoi-vien.svg');
 
   return `<div class="book-card" data-book-id="${book.id}">
     <div class="book-cover-wrapper">
@@ -407,27 +407,37 @@ function renderPagination() {
  */
 function renderBookDetail(book) {
   // Cover
-  const coverBox = document.getElementById('detail-cover-box');
-  if (coverBox) {
+  const coverImg = document.getElementById('detail-cover-img');
+  const coverLoading = document.getElementById('detail-cover-loading');
+  const coverTag = document.getElementById('detail-cover-tag');
+  
+  if (coverImg) {
     const coverSrc = normalizeImageUrl(book.coverImage);
-    coverBox.innerHTML = coverSrc
-      ? `<img src="${coverSrc}" alt="${book.title}">`
-      : `<span>${book.title}</span>`;
-    coverBox.style.background = book.coverColor || '#f5f0e8';
+    if (coverSrc) {
+      coverImg.src = coverSrc;
+      coverImg.classList.remove('hidden-init');
+      if (coverLoading) coverLoading.style.display = 'none';
+      coverImg.parentNode.style.background = book.coverColor || 'transparent';
+    } else {
+      coverImg.classList.add('hidden-init');
+      if (coverLoading) coverLoading.style.display = 'block';
+      coverImg.parentNode.style.background = book.coverColor || '#f5f0e8';
+    }
+    if (coverTag) coverTag.style.display = 'block'; // Demo tag Hội Viên luôn show
   }
 
   // Thumbnails
   const thumbs = document.getElementById('detail-thumbs-list');
   if (thumbs && book.coverImage) {
     const coverSrc = normalizeImageUrl(book.coverImage);
-    const tryIcon = normalizeImageUrl(book.type === 'Audio' ? 'assets/img/nghe-thu.svg' : 'assets/img/doc-thu.svg');
+    const tryIcon = normalizeImageUrl(book.type === 'Audio' ? 'assets/images/nghe-thu.svg' : 'assets/images/doc-thu.svg');
     const tryLabel = book.type === 'Audio' ? 'Nghe thử' : 'Đọc thử';
     thumbs.innerHTML = `
       <div class="thumb-item active"><img src="${coverSrc}" alt=""></div>
       <div class="thumb-item"><img src="${coverSrc}" alt=""></div>
       <div class="thumb-item"><img src="${coverSrc}" alt=""></div>
-      <div class="thumb-item dark-overlay"><img src="${coverSrc}" alt=""><div class="overlay-text">Xem thêm<br>hình ảnh</div></div>
-      <div class="thumb-action-box" data-action="read-trial" data-url="${book.readTrialUrl||'#'}"><img src="${tryIcon}" alt="${tryLabel}"><span>${tryLabel}</span></div>`;
+      <div class="thumb-action-box"><span>Xem thêm<br>hình ảnh</span></div>
+      <button class="thumb-action-box light-mode" data-action="read-trial" data-url="${book.readTrialUrl||'#'}"><img src="${tryIcon}" alt="${tryLabel}"><span>${tryLabel}</span></button>`;
   }
 
   // Text fields
@@ -438,22 +448,24 @@ function renderBookDetail(book) {
   setText('detail-book-rating', book.rating || '4.5');
   setText('detail-book-views', (book.views||0).toLocaleString());
   setText('detail-book-editions', (book.editions||0).toLocaleString());
+  const packageEl = document.getElementById('detail-package');
+  if (packageEl) packageEl.textContent = 'HỘI VIÊN'; // Demo
 
   // Categories
   const catLink = document.getElementById('detail-cat-link');
-  if (catLink) catLink.innerHTML = (book.categories||['Sách']).map(c => `<a href="#" style="color:var(--link-blue)">${c}</a>`).join(', ');
+  if (catLink) catLink.innerHTML = (book.categories||['Sách Thiếu nhi', 'Minh họa', 'Truyện tranh']).join(' &nbsp; ');
 
   // Format selector (normalized image paths)
   const fmtBox = document.getElementById('detail-format-selector');
   if (fmtBox) {
     fmtBox.innerHTML = [
-      { icon: 'assets/img/sach-in.svg', label: 'Sách in', active: false },
-      { icon: 'assets/img/ebook.svg', label: 'Ebook', active: book.type === 'Ebook' },
-      { icon: 'assets/img/audiobook.svg', label: 'Audio', active: book.type === 'Audio' },
-      { icon: 'assets/img/multi-books.svg', label: 'Sách<br>tương tác', active: false }
+      { icon: 'assets/images/sach-in.svg', label: 'Sách in', active: false },
+      { icon: 'assets/images/ebook.svg', label: 'Ebook', active: book.type === 'Ebook' },
+      { icon: 'assets/images/audiobook.svg', label: 'Audio', active: book.type === 'Audio' },
+      { icon: 'assets/images/multi-books.svg', label: 'Sách<br>tương tác', active: false }
     ].map(f => `<div class="format-box ${f.active?'active':''}">
-      <img src="${normalizeImageUrl(f.icon)}" alt="${f.label}" style="${f.active?'':'filter:grayscale(1)'}">
-      <div class="fmt-label">${f.label}</div>
+      <img src="${normalizeImageUrl(f.icon)}" alt="${f.label}">
+      <span>${f.label}</span>
     </div>`).join('');
   }
 
@@ -744,11 +756,22 @@ function bindAllEvents() {
     }
 
     // Toggle Mobile Sidebar
-    if (target.closest('#btn-mobile-menu-btn')) {
+    const btnMenu = target.closest('#btn-mobile-menu-btn');
+    if (btnMenu) {
       const sidebar = document.getElementById('sidebar-content');
       const overlay = document.getElementById('sidebar-overlay');
       if (sidebar) sidebar.classList.toggle('active');
       if (overlay) overlay.classList.toggle('active');
+      document.body.classList.toggle('sidebar-open');
+      
+      const icon = btnMenu.querySelector('i');
+      if (icon) {
+        if (document.body.classList.contains('sidebar-open')) {
+          icon.className = 'bi bi-x-lg';
+        } else {
+          icon.className = 'bi bi-list';
+        }
+      }
       return;
     }
 
@@ -759,6 +782,9 @@ function bindAllEvents() {
         currentSidebar.classList.remove('active');
         const overlay = document.getElementById('sidebar-overlay');
         if (overlay) overlay.classList.remove('active');
+        document.body.classList.remove('sidebar-open');
+        const iconBtn = document.querySelector('#btn-mobile-menu-btn i');
+        if (iconBtn) iconBtn.className = 'bi bi-list';
       }
     }
 

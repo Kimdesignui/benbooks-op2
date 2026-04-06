@@ -38,13 +38,7 @@
         </div>
         <div class="sms-body">
           <div class="sms-bubble">
-            <p>BenBooks xin thông báo: Quý khách đã đăng ký thành công gói <strong>VIP90</strong> – Gói đọc sách Hội viên 90 ngày.</p>
-            <p style="margin-top:10px">Truy cập vào thư viện sách tại:<br>
-              <a href="#" id="sms-link" class="sms-link">benbooks.sachbanquyen.com.vn</a>
-            </p>
-            <p style="margin-top:10px">Mã xác thực của bạn:<br>
-              <span class="sms-code">982932</span>
-            </p>
+            <p>[TB] Quy Khach da nhan duoc quyen loi BENbooks Dac Sac de doc kho sach dien tu, sach noi,...tren <a href="https://benbooks.sachbanquyen.com.vn" class="sms-link">https://benbooks.sachbanquyen.com.vn</a> hoac tai ung dung doc sach BENbooks cua VinaPhone vao tai khoan <strong>0944640034</strong> voi mat khau dang nhap la <span class="sms-code">uB0!$d4C$6Sd</span> thuoc goi VBO5. Chi tiet xin lien he 18001091 (0d/phut) hoac <a href="https://vinaphone.com.vn/lien-he" class="sms-link">https://vinaphone.com.vn/lien-he</a>.</p>
             <div class="sms-time">Hôm nay, 09:41</div>
           </div>
         </div>
@@ -62,10 +56,10 @@
       <div class="header-inner">
         <!-- Row 1: Logo (Left) and Mobile Actions (Right) -->
         <a href="#" class="header-logo">
-          <img src="assets/img/benbooks-logo.svg" alt="BenBooks">
+          <img src="assets/images/benbooks-logo.svg" alt="BenBooks">
         </a>
         <div class="header-mobile-right">
-           <img src="assets/img/vip-icon.svg" class="vip-badge-icon" alt="VIP">
+           <img src="assets/images/vip-icon.svg" class="vip-badge-icon" alt="VIP">
            <div class="divider-vertical"></div>
            <a href="#" class="btn-user-avatar-mobile" id="btn-user-mobile"><i class="bi bi-person-fill"></i></a>
         </div>
@@ -91,7 +85,7 @@
             </div>
           </div>
           <button class="btn-goicuoc" id="btn-goicuoc-header">
-            <img src="assets/img/vip-icon.svg" class="vip-img-icon" alt="VIP"> Gói Cước
+            <img src="assets/images/vip-icon.svg" class="vip-img-icon" alt="VIP"> Gói Cước
           </button>
           <a href="#" class="btn-user-avatar" id="btn-user-desktop"><i class="bi bi-person-fill"></i></a>
         </div>
@@ -116,7 +110,7 @@
           <!-- Banner -->
           <div class="banner-wrapper">
             <div class="banner-img">
-              <img src="assets/img/banner-welcome.jpg" alt="Chào mừng đến với tủ sách Benbooks dành cho hội viên">
+              <img src="assets/images/banner-welcome.jpg" alt="Chào mừng đến với tủ sách Benbooks dành cho hội viên">
             </div>
           </div>
 
@@ -171,7 +165,7 @@
         <div class="mb-3 text-start">
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
-            <input type="text" class="form-control" id="login-code" placeholder="Nhập mã xác thực từ SMS">
+            <input type="text" class="form-control" id="login-code" placeholder="Nhập mật khẩu đăng nhập từ SMS">
             <span class="input-group-text" style="cursor:pointer"><i class="bi bi-eye-slash" id="toggle-code"></i></span>
           </div>
         </div>
@@ -197,38 +191,54 @@
         <span id="detail-crumb-title">...</span>
       </nav>
 
-      <div class="row g-4">
+      <div class="row g-4 mb-4">
         <!-- LEFT: Cover + Thumbs -->
-        <div class="col-lg-4">
-          <div class="detail-cover-box" id="detail-cover-box"><span>Đang tải...</span></div>
-          <div class="detail-thumbs" id="detail-thumbs-list"></div>
+        <div class="col-lg-6">
+          <div class="detail-cover-wrap">
+            <div class="detail-cover-box" id="detail-cover-box">
+              <img src="" id="detail-cover-img" alt="Book Cover" class="hidden-init">
+              <span id="detail-cover-loading">Đang tải...</span>
+            </div>
+            <!-- Tag Hội Viên Overlay -->
+            <img src="assets/images/tag-hoi-vien.svg" alt="Hội Viên Tag" class="cover-tag-vip" id="detail-cover-tag" style="display:none;">
+          </div>
+          
+          <!-- Thumbs Carousel Strip -->
+          <div class="detail-thumbs-container" id="detail-thumbs-list">
+            <!-- Sẽ được fill bằng app.js -->
+          </div>
         </div>
 
-        <!-- CENTER: Book Info -->
-        <div class="col-lg-5">
+        <!-- RIGHT: Book Info -->
+        <div class="col-lg-6 detail-info-column">
           <h1 class="detail-h1" id="detail-book-title">[Ebook] Đang tải...</h1>
           <p class="detail-subtitle" id="detail-subtitle">Subtitle title</p>
 
           <div class="detail-meta">
-            <span class="detail-rating"><span id="detail-book-rating">4.5</span> <span class="stars">★★★★★</span></span>
-            <span class="detail-views"><i class="bi bi-eye"></i> <span id="detail-book-views">0</span> Lượt xem</span>
-            <span class="detail-editions"><i class="bi bi-cart-check"></i> <span id="detail-book-editions">0</span> Đã bán</span>
+            <span class="detail-rating"><strong id="detail-book-rating">4.5</strong> <span class="stars">★★★★★</span></span>
+            <span class="meta-divider"></span>
+            <span class="detail-views"><strong id="detail-book-views">52358</strong> Lượt xem</span>
+            <span class="meta-divider"></span>
+            <span class="detail-editions"><strong id="detail-book-editions">3639</strong> Đã bán</span>
+            
+            <div class="meta-action-right">
+              <button class="btn-share-round"><i class="bi bi-share-fill"></i></button>
+            </div>
           </div>
 
           <table class="detail-info-table">
-            <tr><td>Danh mục:</td><td id="detail-cat-link">—</td></tr>
-            <tr><td>Gói cước:</td><td><strong style="color:var(--primary)">HỘI VIÊN</strong></td></tr>
+            <tr><td class="lbl">Danh mục:</td><td id="detail-cat-link">Sách Thiếu nhi &nbsp; Minh họa &nbsp; Truyện tranh</td></tr>
+            <tr><td class="lbl">Gói cước:</td><td><strong id="detail-package">HỘI VIÊN</strong></td></tr>
           </table>
 
-          <p class="detail-label">Chọn loại</p>
-          <div class="detail-formats-info" id="detail-format-selector"></div>
+          <div class="detail-formats-section">
+            <p class="detail-label">Chọn loại</p>
+            <div class="detail-formats-grid" id="detail-format-selector">
+              <!-- Cards format hiển thị tại đây -->
+            </div>
+          </div>
 
-          <button class="btn-read-now" id="btn-read-now"><i class="bi bi-book"></i> Đọc ngay</button>
-        </div>
-
-        <!-- RIGHT: Sidebar on detail -->
-        <div class="col-lg-3 d-none d-lg-block">
-          <div class="detail-sidebar-box" id="detail-sidebar-right"></div>
+          <button class="btn-read-now-large" id="btn-read-now">Đọc ngay</button>
         </div>
       </div>
 
@@ -430,7 +440,7 @@
       <div class="modal-content">
         <div class="modal-header"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
         <div class="modal-body modal-success text-center">
-          <img src="assets/img/vip-icon.svg" alt="VIP" style="width: 64px; height: auto; margin-bottom: 16px;">
+          <img src="assets/images/vip-icon.svg" alt="VIP" style="width: 64px; height: auto; margin-bottom: 16px;">
           <h4 class="title-hoivien">Chào mừng đến với gói đọc Benbooks<br>dành cho hội viên</h4>
           <p class="time-remaining">Thời Gian Còn Lại: <strong>31 Ngày</strong></p>
           <button class="btn-activate mt-2" id="btn-go-library">VÀO ĐỌC SÁCH</button>
@@ -450,8 +460,9 @@
           <p class="company-time">(Hoạt động từ 8h - 17h, Thứ 2 - Thứ 7)</p>
           <div class="contact-row">
             <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
-            <p>2BD2 Khu giãn dân Yên Phúc, Hà Đông, Hà Nội</p>
+            <p>Lô 35 Khu Bãi Sậy, phường Hà Đông, TP. Hà Nội</p>
           </div>
+
           <div class="contact-row">
             <div class="contact-icon"><i class="bi bi-telephone"></i></div>
             <p>Hotline: <strong>0888 080 290</strong></p>
@@ -491,11 +502,11 @@
 
       <div class="footer-bottom-row">
         <div class="app-downloads">
-          <img src="assets/img/download-ios.svg" alt="App Store">
-          <img src="assets/img/download-chplay.svg" alt="Google Play">
+          <img src="assets/images/download-ios.svg" alt="App Store">
+          <img src="assets/images/download-chplay.svg" alt="Google Play">
         </div>
         <div class="footer-cert">
-          <img src="assets/img/bo-cong-thuong.png" alt="Bộ Công Thương">
+          <img src="assets/images/bo-cong-thuong.png" alt="Bộ Công Thương">
         </div>
       </div>
     </div>
@@ -504,8 +515,8 @@
 
   <!-- Floating Actions -->
   <div class="floating-actions hidden-init" id="floating-actions">
-    <button class="floating-btn messenger"><img src="assets/img/messenger.svg" alt="Messenger"></button>
-    <button class="floating-btn zalo"><img src="assets/img/zalo.svg" alt="Zalo"></button>
+    <button class="floating-btn messenger"><img src="assets/images/messenger.svg" alt="Messenger"></button>
+    <button class="floating-btn zalo"><img src="assets/images/zalo.svg" alt="Zalo"></button>
     <button class="floating-btn scroll-top" id="btn-scroll-top"><i class="bi bi-chevron-up"></i></button>
   </div>
 
