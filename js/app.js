@@ -454,11 +454,14 @@ function renderBookDetail(book) {
   setText('detail-book-views', (book.views || 0).toLocaleString());
   setText('detail-book-editions', (book.editions || 0).toLocaleString());
   const packageEl = document.getElementById('detail-package');
-  if (packageEl) packageEl.textContent = 'HỘI VIÊN'; // Demo
+  if (packageEl) packageEl.innerHTML = `<img src="${normalizeImageUrl('assets/images/tag-hoi-vien.svg')}" alt="Hội Viên" style="height: 22px; vertical-align: middle;">`;
 
   // Categories
   const catLink = document.getElementById('detail-cat-link');
-  if (catLink) catLink.innerHTML = (book.categories || ['Sách Thiếu nhi', 'Minh họa', 'Truyện tranh']).join(' &nbsp; ');
+  if (catLink) {
+    const cats = book.categories || ['Sách Thiếu nhi', 'Minh họa', 'Truyện tranh'];
+    catLink.innerHTML = cats.map(c => `<span class="category-tag">${c}</span>`).join(' ');
+  }
 
   // Format selector (normalized image paths)
   const fmtBox = document.getElementById('detail-format-selector');
