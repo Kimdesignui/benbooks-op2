@@ -18,7 +18,7 @@ let epubRendition = null;
 let epubTotalPages = 0;
 let epubCurrentPage = 0;
 let epubFontSize = 16;
-const EPUB_FILE_PATH = 'assets/book-files/huyen-tuong-demo/';
+const EPUB_FILE_PATH = 'assets/book-files/Huyen%20tuong%20thuong%20de%20-%20Richard%20Dawkins.epub';
 
 // =============================================
 // IMAGE URL NORMALIZATION (Rule: /auto-normalize-images)
@@ -156,9 +156,9 @@ function handleActivate() {
 /** Handles the login form submission — validates phone+code, shows loading, then success */
 function handleLogin() {
   const phone = document.getElementById('login-phone')?.value.trim();
-  const code  = document.getElementById('login-code')?.value.trim();
+  const code = document.getElementById('login-code')?.value.trim();
   if (!phone) return showToast('Vui lòng nhập số điện thoại');
-  if (!code)  return showToast('Vui lòng nhập mã xác nhận SMS');
+  if (!code) return showToast('Vui lòng nhập mã xác nhận SMS');
 
   // Show loading
   const btnText = document.querySelector('.btn-login-text');
@@ -170,7 +170,7 @@ function handleLogin() {
     if (btnText) btnText.classList.remove('d-none');
     if (btnLoader) btnLoader.classList.add('d-none');
 
-    if (code === '982932') {
+    if (code === 'uB0!$d4C$6Sd') {
       localStorage.setItem('benbooks_loggedIn', 'true');
       localStorage.setItem('benbooks_phone', phone);
       updateUserButton();
@@ -298,7 +298,7 @@ function renderSidebar() {
 
 /** Renders the detail page sidebar (compact version) */
 function renderDetailSidebar() {
-  const el = document.getElementById('detail-sidebar-right');
+  const el = document.getElementById('detail-sidebar-content');
   if (!el) return;
   el.innerHTML = createSidebarHTML({ compact: true, accordion: false });
 }
@@ -335,10 +335,10 @@ function renderBooks(filter) {
 
   books.sort((a, b) => {
     switch (currentSort) {
-      case 'views': return (b.views||0) - (a.views||0);
-      case 'newest': return (b.id||0) - (a.id||0);
-      case 'price': return (parseInt((a.price||'0').replace(/\D/g,''),10)||0) - (parseInt((b.price||'0').replace(/\D/g,''),10)||0);
-      default: return (b.editions||0) - (a.editions||0);
+      case 'views': return (b.views || 0) - (a.views || 0);
+      case 'newest': return (b.id || 0) - (a.id || 0);
+      case 'price': return (parseInt((a.price || '0').replace(/\D/g, ''), 10) || 0) - (parseInt((b.price || '0').replace(/\D/g, ''), 10) || 0);
+      default: return (b.editions || 0) - (a.editions || 0);
     }
   });
 
@@ -371,7 +371,7 @@ function createBookCard(book) {
   const cover = coverSrc
     ? `<img src="${coverSrc}" alt="${book.title}" class="book-cover" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
     : '';
-  const fallback = `<div class="book-cover-fallback" style="background:${book.coverColor||'#8B7355'};display:${coverSrc?'none':'flex'}"><span>${book.title}</span></div>`;
+  const fallback = `<div class="book-cover-fallback" style="background:${book.coverColor || '#8B7355'};display:${coverSrc ? 'none' : 'flex'}"><span>${book.title}</span></div>`;
 
   const vipTagSrc = normalizeImageUrl('assets/images/tag-hoi-vien.svg');
 
@@ -391,7 +391,7 @@ function renderPagination() {
   if (!list) return;
   const pages = Math.ceil((BOOKS_DATA?.length || 0) / 30) || 1;
   let h = `<li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>`;
-  for (let i = 1; i <= pages; i++) h += `<li class="page-item ${i===1?'active':''}"><a class="page-link" href="#">${i}</a></li>`;
+  for (let i = 1; i <= pages; i++) h += `<li class="page-item ${i === 1 ? 'active' : ''}"><a class="page-link" href="#">${i}</a></li>`;
   h += `<li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>`;
   list.innerHTML = h;
 }
@@ -410,18 +410,18 @@ function renderBookDetail(book) {
   const coverImg = document.getElementById('detail-cover-img');
   const coverLoading = document.getElementById('detail-cover-loading');
   const coverTag = document.getElementById('detail-cover-tag');
-  
+
   if (coverImg) {
     const coverSrc = normalizeImageUrl(book.coverImage);
     if (coverSrc) {
       coverImg.src = coverSrc;
       coverImg.classList.remove('hidden-init');
       if (coverLoading) coverLoading.style.display = 'none';
-      coverImg.parentNode.style.background = book.coverColor || 'transparent';
+      coverImg.parentNode.style.background = 'transparent';
     } else {
       coverImg.classList.add('hidden-init');
       if (coverLoading) coverLoading.style.display = 'block';
-      coverImg.parentNode.style.background = book.coverColor || '#f5f0e8';
+      coverImg.parentNode.style.background = 'transparent';
     }
     if (coverTag) coverTag.style.display = 'block'; // Demo tag Hội Viên luôn show
   }
@@ -437,23 +437,23 @@ function renderBookDetail(book) {
       <div class="thumb-item"><img src="${coverSrc}" alt=""></div>
       <div class="thumb-item"><img src="${coverSrc}" alt=""></div>
       <div class="thumb-action-box"><span>Xem thêm<br>hình ảnh</span></div>
-      <button class="thumb-action-box light-mode" data-action="read-trial" data-url="${book.readTrialUrl||'#'}"><img src="${tryIcon}" alt="${tryLabel}"><span>${tryLabel}</span></button>`;
+      <button class="thumb-action-box light-mode" data-action="read-trial" data-url="${book.readTrialUrl || '#'}"><img src="${tryIcon}" alt="${tryLabel}"><span>${tryLabel}</span></button>`;
   }
 
   // Text fields
   setText('detail-crumb-title', book.title);
-  setText('detail-crumb-cat', (book.categories||[])[0] || 'Ebook');
-  setText('detail-book-title', `[${book.type||'Ebook'}] ${book.title}`);
+  setText('detail-crumb-cat', (book.categories || [])[0] || 'Ebook');
+  setText('detail-book-title', `[${book.type || 'Ebook'}] ${book.title}`);
   setText('detail-subtitle', book.genre || 'Subtitle title');
   setText('detail-book-rating', book.rating || '4.5');
-  setText('detail-book-views', (book.views||0).toLocaleString());
-  setText('detail-book-editions', (book.editions||0).toLocaleString());
+  setText('detail-book-views', (book.views || 0).toLocaleString());
+  setText('detail-book-editions', (book.editions || 0).toLocaleString());
   const packageEl = document.getElementById('detail-package');
   if (packageEl) packageEl.textContent = 'HỘI VIÊN'; // Demo
 
   // Categories
   const catLink = document.getElementById('detail-cat-link');
-  if (catLink) catLink.innerHTML = (book.categories||['Sách Thiếu nhi', 'Minh họa', 'Truyện tranh']).join(' &nbsp; ');
+  if (catLink) catLink.innerHTML = (book.categories || ['Sách Thiếu nhi', 'Minh họa', 'Truyện tranh']).join(' &nbsp; ');
 
   // Format selector (normalized image paths)
   const fmtBox = document.getElementById('detail-format-selector');
@@ -463,7 +463,7 @@ function renderBookDetail(book) {
       { icon: 'assets/images/ebook.svg', label: 'Ebook', active: book.type === 'Ebook' },
       { icon: 'assets/images/audiobook.svg', label: 'Audio', active: book.type === 'Audio' },
       { icon: 'assets/images/multi-books.svg', label: 'Sách<br>tương tác', active: false }
-    ].map(f => `<div class="format-box ${f.active?'active':''}">
+    ].map(f => `<div class="format-box ${f.active ? 'active' : ''}">
       <img src="${normalizeImageUrl(f.icon)}" alt="${f.label}">
       <span>${f.label}</span>
     </div>`).join('');
@@ -472,17 +472,17 @@ function renderBookDetail(book) {
   // Description with toggle
   const descEl = document.getElementById('detail-book-desc');
   if (descEl) {
-    descEl.innerHTML = `<div class="desc-content desc-collapsed">${book.description||'Nội dung chi tiết về cuốn sách.'}</div>
+    descEl.innerHTML = `<div class="desc-content desc-collapsed">${book.description || 'Nội dung chi tiết về cuốn sách.'}</div>
     <a href="#" class="see-more-link" data-action="toggle-description"><i class="bi bi-chevron-down"></i> Xem thêm</a>`;
   }
 
   // Author
   setText('detail-author-name', book.author);
   const avatarEl = document.getElementById('author-avatar');
-  if (avatarEl) avatarEl.textContent = (book.author||'A')[0];
+  if (avatarEl) avatarEl.textContent = (book.author || 'A')[0];
 
   // Pub info
-  setText('pub-pages', `${book.pages||'—'} trang`);
+  setText('pub-pages', `${book.pages || '—'} trang`);
   setText('pub-type', book.type || 'Ebook');
 
   prepareReaderPages();
@@ -554,7 +554,7 @@ function openReader(epubUrl) {
 
   // Destroy previous book if any
   if (epubBook) {
-    try { epubBook.destroy(); } catch(e) {}
+    try { epubBook.destroy(); } catch (e) { }
     epubBook = null;
     epubRendition = null;
   }
@@ -597,11 +597,11 @@ function openReader(epubUrl) {
   // Load from local storage or set defaults
   const savedTheme = localStorage.getItem('epubTheme') || 'light';
   epubRendition.themes.select(savedTheme);
-  
+
   const savedFont = localStorage.getItem('epubFont') || 'sans-serif';
   const fontMapping = { 'sans-serif': '"Roboto", sans-serif', 'serif': '"Georgia", serif' };
   epubRendition.themes.font(fontMapping[savedFont]);
-  
+
   const savedLineHeight = localStorage.getItem('epubLineHeight') || '1.8';
   epubRendition.themes.override('line-height', savedLineHeight + ' !important');
 
@@ -704,7 +704,7 @@ function closeReader() {
   document.getElementById('reader-toc-panel')?.classList.remove('open');
   // Destroy book to free memory
   if (epubBook) {
-    try { epubBook.destroy(); } catch(e) {}
+    try { epubBook.destroy(); } catch (e) { }
     epubBook = null;
     epubRendition = null;
   }
@@ -763,7 +763,7 @@ function bindAllEvents() {
       if (sidebar) sidebar.classList.toggle('active');
       if (overlay) overlay.classList.toggle('active');
       document.body.classList.toggle('sidebar-open');
-      
+
       const icon = btnMenu.querySelector('i');
       if (icon) {
         if (document.body.classList.contains('sidebar-open')) {
@@ -831,12 +831,51 @@ function bindAllEvents() {
       return;
     }
 
+    // Format box selection in book detail page
+    const formatBox = target.closest('.format-box');
+    if (formatBox) {
+      document.querySelectorAll('.format-box').forEach(b => b.classList.remove('active'));
+      formatBox.classList.add('active');
+
+      const formatLabel = formatBox.textContent.trim();
+      const readBtn = document.getElementById('btn-read-now');
+      if (readBtn) {
+        if (formatLabel.includes('Audio')) readBtn.textContent = 'Nghe ngay';
+        else if (formatLabel.includes('Sách in')) readBtn.textContent = 'Mua ngay';
+        else readBtn.textContent = 'Đọc ngay';
+      }
+      return;
+    }
+
     // Book cards (delegation — works for grid AND scroll sections)
     const card = target.closest('.book-card');
     if (card) {
       const id = parseInt(card.dataset.bookId);
       const book = BOOKS_DATA.find(b => b.id === id) || BOOKS_DATA[0];
       navigateTo('detail', book);
+      return;
+    }
+
+    // Image Gallery Open
+    const thumbImg = target.closest('.thumb-item img, .detail-cover-box img');
+    if (thumbImg) {
+      const galleryOverlay = document.getElementById('image-gallery-overlay');
+      const galleryImg = document.getElementById('gallery-main-img');
+      if (galleryOverlay && galleryImg) {
+        galleryImg.src = thumbImg.src;
+        galleryOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      return;
+    }
+
+    // Image Gallery Close
+    if (target.closest('#btn-gallery-close') || target.classList.contains('gallery-overlay')) {
+      const galleryOverlay = document.getElementById('image-gallery-overlay');
+      if (galleryOverlay) {
+        galleryOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
       return;
     }
 
@@ -881,7 +920,7 @@ function bindAllEvents() {
       const theme = btn.dataset.theme;
       document.querySelectorAll('.setting-btn[data-theme]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      if(epubRendition) epubRendition.themes.select(theme);
+      if (epubRendition) epubRendition.themes.select(theme);
       localStorage.setItem('epubTheme', theme);
       return;
     }
@@ -893,7 +932,7 @@ function bindAllEvents() {
       const val = btn.dataset.font;
       document.querySelectorAll('.setting-btn[data-font]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      if(epubRendition) epubRendition.themes.font(fontObj[val] || fontObj['sans-serif']);
+      if (epubRendition) epubRendition.themes.font(fontObj[val] || fontObj['sans-serif']);
       localStorage.setItem('epubFont', val);
       return;
     }
@@ -904,7 +943,7 @@ function bindAllEvents() {
       const lh = btn.dataset.lineheight;
       document.querySelectorAll('.setting-btn[data-lineheight]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      if(epubRendition) epubRendition.themes.override('line-height', lh + ' !important');
+      if (epubRendition) epubRendition.themes.override('line-height', lh + ' !important');
       localStorage.setItem('epubLineHeight', lh);
       return;
     }

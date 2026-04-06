@@ -1,6 +1,6 @@
-/* =============================================
-   BENBOOKS PLUS — DESIGN SYSTEM & STYLES
-   6-Step Flow: SMS → Homepage → Login → Welcome → Library → Detail
+﻿/* =============================================
+   BENBOOKS PLUS Ã¢â‚¬â€ DESIGN SYSTEM & STYLES
+   6-Step Flow: SMS Ã¢â€ â€™ Homepage Ã¢â€ â€™ Login Ã¢â€ â€™ Welcome Ã¢â€ â€™ Library Ã¢â€ â€™ Detail
    ============================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
@@ -63,7 +63,7 @@ button { font-family: var(--font); }
 
 
 /* =============================================
-   3. TYPOGRAPHY (Figma Font Styles Manager — 16 styles)
+   3. TYPOGRAPHY (Figma Font Styles Manager Ã¢â‚¬â€ 16 styles)
    ============================================= */
 /* H1 - Booktitle - 26pt - B */
 .h1-title,
@@ -392,7 +392,7 @@ button { font-family: var(--font); }
   text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
 }
 .sidebar-link::before {
-  content: '└'; color: var(--primary); font-size: 13px; font-weight: 300; display: inline-block; margin-right: 8px; transform: scaleY(1.2);
+  content: 'Ã¢â€â€'; color: var(--primary); font-size: 13px; font-weight: 300; display: inline-block; margin-right: 8px; transform: scaleY(1.2);
 }
 .sidebar-link:hover, .sidebar-link.active { color: var(--btn-gold); padding-left: 4px; }
 
@@ -579,8 +579,51 @@ button { font-family: var(--font); }
 /* =============================================
    15. BOOK DETAIL
    ============================================= */
-.detail-wrapper { padding: 20px var(--gutter); animation: fadeIn 0.3s ease; }
-@media (min-width: 1440px) { .detail-wrapper { max-width: var(--max-w); margin: 0 auto; padding: 20px 0; } }
+
+/* Full-width white block for breadcrumb + cover/info area */
+.detail-top-bg {
+  background: var(--white);
+  width: 100%;
+}
+
+/* Bottom area: light page background */
+.detail-bottom-bg {
+  background: var(--bg-page);
+  width: 100%;
+}
+
+/* Override main-layout inside detail bottom to behave like homepage */
+.detail-bottom-layout {
+  min-height: unset;
+  align-items: flex-start;
+  padding-top: 0;
+  gap: 24px;
+}
+
+/* Detail page sidebar Ã¢â‚¬â€ compact version */
+.details-page-sidebar {
+  max-height: none !important;
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  padding: 0 0 0 16px;
+  border-right: none;
+  background: transparent;
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  overflow-y: auto;
+}
+
+/* Divider between author + publisher columns */
+.author-section .col-12.col-md-6:first-child {
+  border-right: 1px solid var(--grayline);
+}
+@media (max-width: 767px) {
+  .author-section .col-12.col-md-6:first-child { border-right: none; border-bottom: 1px solid var(--grayline); padding-bottom: 16px; }
+}
+
+.detail-wrapper { padding: 0 var(--gutter); animation: fadeIn 0.3s ease; }
+@media (min-width: 1440px) { .detail-wrapper { max-width: var(--max-w); margin: 0 auto; padding: 0; } }
+
 
 .breadcrumb-bar { padding: 12px 0; font-size: 16px; color: var(--icon); margin-bottom: 8px; }
 .breadcrumb-bar a { color: var(--icon); }
@@ -1015,32 +1058,52 @@ body.sidebar-open { overflow: hidden; }
   .btn-mobile-menu { display: block; color: var(--text-dark); }
   .header-search-wrapper { flex-basis: 100%; max-width: 100%; margin: 0; order: 3; }
   .header-search input { height: 44px; }
+  /* Detail page sidebar: hide on tablet/mobile */
+  .details-page-sidebar { display: none !important; }
 }
 @media (max-width: 768px) {
   :root { --gutter: 16px; --header-h: auto; }
   .books-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  
-  /* Mobile Footer Reordering */
   .footer-grid { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; border-bottom: none; }
   .footer-col { padding-bottom: 16px; border-bottom: 1px solid var(--grayline); }
   .footer-company-info { order: 1; border-color: var(--grayline); }
   .footer-nav-group:nth-child(2) { order: 2; }
   .footer-nav-group:nth-child(3) { order: 3; }
   .footer-nav-group:nth-child(4) { order: 4; border-bottom: 1px solid var(--grayline); padding-bottom: 16px; }
-  
   .footer-bottom-row { flex-direction: column; align-items: center; gap: 24px; padding-top: 24px; border-top: none; }
   .app-downloads { flex-direction: column; align-items: center; gap: 16px; }
-  
   .reader-content { padding: 24px 16px; column-count: 1; }
-  
-  /* iPhone Mockup responsive */
   .iphone-notch { transform: translateX(-50%) scale(0.9); transform-origin: top center; }
 }
 @media (max-width: 480px) {
   .books-grid { gap: 8px; padding: 0 8px 16px; }
   .login-card { padding: 28px 20px; }
-  /* Further scale down iPhone Mockup */
   .iphone-status-bar { font-size: 14px; padding: 12px 24px 0; }
   .iphone-notch { transform: translateX(-50%) scale(0.8); }
+}
+
+/* =============================================
+   18. IMAGE GALLERY (Lightbox)
+   ============================================= */
+.detail-cover-box img, .thumb-item img { cursor: zoom-in; }
+
+.gallery-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 100000; display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); padding: 20px; animation: fadeIn 0.25s ease;
+}
+.gallery-overlay.active { display: flex; }
+.gallery-close {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(255,255,255,0.2); border: none; color: #fff;
+  width: 44px; height: 44px; border-radius: 50%; font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all var(--fast); z-index: 2;
+}
+.gallery-close:hover { background: var(--primary); color: #000; transform: scale(1.1); }
+#gallery-main-img {
+  max-width: 100%; max-height: 90vh; object-fit: contain;
+  border-radius: var(--radius-lg); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  animation: scaleIn 0.3s ease;
 }
 
