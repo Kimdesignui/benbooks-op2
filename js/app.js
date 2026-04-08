@@ -840,6 +840,7 @@ function bindAllEvents() {
     // Header logo → homepage
     const logoLink = target.closest('.header-logo');
     if (logoLink) {
+      if (document.body.dataset.page === 'detail') return;
       e.preventDefault();
       navigateTo('homepage');
       return;
