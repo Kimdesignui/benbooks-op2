@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -14,300 +14,403 @@
 <body data-page="detail">
 
   <!-- ============ HEADER ============ -->
-  <header class="site-header">
-    <div class="container-1440 header-inner">
-      <a href="index.html" class="header-logo">
-        <img src="assets/images/benbooks-logo.svg" alt="BenBooks Logo">
-      </a>
-      <div class="header-search">
-        <input type="text" id="header-search-input" placeholder="Nhập từ khóa tìm kiếm..." autocomplete="off">
-        <button class="btn-search" aria-label="Tìm kiếm"><i class="bi bi-search"></i></button>
-      </div>
-      <div class="header-actions">
-        <div class="header-hotline">
-          <i class="bi bi-telephone-fill"></i>
-          <span>Hotline: <strong>0382832993</strong></span>
-        </div>
-        <button class="btn-goicuoc" onclick="showWelcomeModal()">
-          <i class="bi bi-gem"></i> Gói Cước
-        </button>
-        <a href="login.html" class="btn-user-avatar" id="btn-user" title="Đăng nhập">
-          <i class="bi bi-person-fill"></i>
+  <header class="site-header" id="site-header">
+    <div class="container-1440">
+      <div class="header-inner">
+        <!-- Row 1: Logo (Left) and Mobile Actions (Right) -->
+        <a href="index.html" class="header-logo">
+          <img loading="lazy" src="assets/images/benbooks-logo.svg" alt="BenBooks">
         </a>
+        <div class="header-mobile-right">
+           <img loading="lazy" src="assets/images/vip-icon.svg" class="vip-badge-icon" alt="VIP">
+           <div class="divider-vertical"></div>
+           <a href="login.html" class="btn-user-avatar-mobile" id="btn-user-mobile"><i class="bi bi-person-fill"></i></a>
+        </div>
+
+        <!-- Row 2: Hamburger + Search Wrapper -->
+        <div class="header-search-wrapper">
+          <button class="btn-mobile-menu" aria-label="Menu" id="btn-mobile-menu-btn"><i class="bi bi-list"></i></button>
+          <div class="header-search-container">
+            <div class="header-search">
+              <input type="text" id="header-search-input" placeholder="Nhập từ khóa tìm kiếm">
+              <button class="btn-search"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop khu vực Action bên phải -->
+        <div class="header-actions">
+          <div class="header-hotline">
+            <i class="bi bi-telephone-inbound"></i>
+            <div class="hotline-text">
+               <span class="hotline-lbl">Hotline:</span>
+               <strong>0382832993</strong>
+            </div>
+          </div>
+          <button class="btn-goicuoc" id="btn-goicuoc-header">
+            <img loading="lazy" src="assets/images/vip-icon.svg" class="vip-img-icon" alt="VIP"> Gói Cước
+          </button>
+          <a href="login.html" class="btn-user-avatar" id="btn-user-desktop"><i class="bi bi-person-fill"></i></a>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- ============ DETAIL CONTENT ============ -->
-  <div class="detail-wrapper container-1440">
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-bar">
+  <!-- BREADCRUMB SECTION -->
+<div class="breadcrumb-section pt-3 pb-2 pt-lg-4 pb-lg-3">
+  <div class="container-1440">
+    <nav class="breadcrumb-bar">
       <a href="index.html"><i class="bi bi-house"></i> Trang chủ</a>
       <span> / </span>
-      <span id="detail-category">Danh mục</span>
+      <a href="index.html" id="detail-crumb-cat">Ebook</a>
       <span> / </span>
-      <span style="color:var(--text-dark)">Chi tiết sách</span>
-    </div>
-
-    <!-- Detail Grid -->
-    <div class="detail-grid">
-      <!-- Cover -->
-      <div class="detail-cover">
-        <div class="detail-cover-box" id="detail-cover-box">
-          <span id="detail-cover-title">Đang tải...</span>
-        </div>
-        <div class="format-options">
-          <div class="format-option active">
-            <i class="bi bi-book"></i><span>Ebook</span>
-          </div>
-          <div class="format-option">
-            <i class="bi bi-headphones"></i><span>Audio</span>
-          </div>
-          <div class="format-option">
-            <i class="bi bi-journal-richtext"></i><span>Sách in</span>
-          </div>
-          <div class="format-option" id="btn-doc-thu" style="cursor:pointer">
-            <i class="bi bi-eye"></i><span>Đọc thử</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Info -->
-      <div class="detail-info">
-        <h1 id="detail-book-title">[Ebook] Đang tải...</h1>
-        <p class="detail-subtitle" id="detail-book-author">Tác giả</p>
-
-        <div class="detail-meta">
-          <div class="detail-meta-item">
-            <span id="detail-book-rating" style="font-weight:700">0</span>
-            <span style="color:var(--primary)">★★★★★</span>
-          </div>
-          <div class="detail-meta-item" style="color:var(--icon)">
-            <i class="bi bi-chat-dots"></i>
-            <span id="detail-book-reviews">0 đánh giá</span>
-          </div>
-          <div class="detail-meta-item" style="color:var(--icon)">
-            <i class="bi bi-eye"></i>
-            <span id="detail-book-views">0 Lượt xem</span>
-          </div>
-        </div>
-
-        <div class="detail-categories mb-2" style="display: flex; align-items: center; gap: 8px;">
-          <span>Danh mục: </span>
-          <div id="detail-cat-link">
-            <span class="category-tag">Chưa phân loại</span>
-          </div>
-        </div>
-        <div class="detail-categories mb-3" style="display: flex; align-items: center; gap: 8px;">
-          <span>Gói cước: </span>
-          <div id="detail-package">
-            <img src="assets/images/tag-hoi-vien.svg" alt="Hội Viên" style="height: 22px; vertical-align: middle;">
-          </div>
-        </div>
-
-        <!-- Format info -->
-        <div class="detail-formats-info">
-          <div class="format-option active">
-            <img src="assets/images/sach-in.svg" alt="" style="width:22px"><span>Sách in</span>
-          </div>
-          <div class="format-option">
-            <img src="assets/images/ebook.svg" alt="" style="width:22px"><span>Ebook</span>
-          </div>
-          <div class="format-option">
-            <img src="assets/images/audiobook.svg" alt="" style="width:22px"><span>Audio</span>
-          </div>
-          <div class="format-option">
-            <img src="assets/images/multi-books.svg" alt="" style="width:22px"><span>Tương tác</span>
-          </div>
-        </div>
-
-        <button class="btn-read-now" id="btn-read-now">
-          <i class="bi bi-book"></i> ĐỌC NGAY
-        </button>
-      </div>
-    </div>
-
-    <!-- Author & Publisher Section -->
-    <div class="main-layout detail-bottom-layout">
-      <main class="main-content">
-        <div class="row gx-4 mb-4 author-publisher-row mt-4">
-          <div class="col-md-6 mb-3 mb-md-0">
-            <div class="author-pub-block" style="background:#fff">
-              <span class="ap-label">Tác giả</span>
-              <div class="ap-content">
-                <div class="d-flex align-items-center">
-                  <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100" class="author-avatar-img" alt="Elizabeth Cole" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
-                  <div class="ms-3">
-                    <div class="author-name-row">
-                  <strong id="detail-author-name">Elizabeth Cole</strong>
-                </div>
-                <div class="author-role" id="author-role">Chủ biên</div>
-              </div>
-            </div>
-            <button class="btn-xem-chi-tiet">Xem chi tiết</button>
-          </div>
-        </div>
-      </div>
-          <div class="col-md-6">
-            <div class="author-pub-block" style="background:#fff">
-              <span class="ap-label">Được bán bởi:</span>
-              <div class="ap-content">
-            <div class="d-flex align-items-center">
-              <img src="assets/images/benito-logo-short.svg" class="nxb-logo" alt="NXB Logo" onerror="this.src='assets/images/tag-hoi-vien.svg'">
-              <div class="ms-3">
-                <div class="publisher-name" id="publisher-name">Công ty CP văn hóa và bản quyền Benito</div>
-                <div class="publisher-addr"><i class="bi bi-shield-check" style="color:#28a745"></i> Nhà phát hành tin cậy</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Publication Info -->
-    <div class="yellow-header-box mb-4">
-      <div class="yellow-header">THÔNG TIN XUẤT BẢN</div>
-      <div class="pub-grid">
-        <div class="pub-cell pub-label"><i class="bi bi-building"></i> NXB:</div>
-        <div class="pub-cell">Nhà Xuất Bản xây dựng</div>
-        <div class="pub-cell pub-label"><i class="bi bi-person"></i> Người dịch:</div>
-        <div class="pub-cell">Phạm Vĩnh Cư</div>
-        <div class="pub-cell pub-label"><i class="bi bi-calendar"></i> Năm XB:</div>
-        <div class="pub-cell">2019</div>
-        <div class="pub-cell pub-label"><i class="bi bi-book"></i> Loại sách:</div>
-        <div class="pub-cell">Ebook; Sách giấy; Audio Book</div>
-        <div class="pub-cell pub-label"><i class="bi bi-rulers"></i> Kt bìa:</div>
-        <div class="pub-cell">16x24 cm</div>
-        <div class="pub-cell pub-label"><i class="bi bi-file-earmark-text"></i> Số trang:</div>
-        <div class="pub-cell">202 trang</div>
-        <div class="pub-cell pub-label"><i class="bi bi-globe"></i> Quốc gia:</div>
-        <div class="pub-cell">Đức</div>
-        <div class="pub-cell pub-label"><i class="bi bi-translate"></i> Ngôn ngữ:</div>
-        <div class="pub-cell">Tiếng Việt</div>
-        <div class="pub-cell pub-label"><i class="bi bi-upc-scan"></i> Mã ISBN:</div>
-        <div class="pub-cell">978-604-82-3892-6</div>
-        <div class="pub-cell pub-label"><i class="bi bi-phone"></i> Mã ISBN Điện tử:</div>
-        <div class="pub-cell">978-604-82-3892-6</div>
-      </div>
-    </div>
-    <!-- Tabs -->
-    <div class="detail-tabs mb-4">
-      <div class="yellow-tabs-bar">
-        <ul class="nav nav-pills" role="tablist">
-          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-intro">Giới thiệu</button></li>
-          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-toc">Mục lục</button></li>
-        </ul>
-      </div>
-      <div class="tab-content yellow-tabs-content">
-        <div class="tab-pane fade show active" id="tab-intro">
-          <div class="tab-content-body" id="detail-book-desc">
-            <strong>Cơ thể siêu rắc rối</strong><br><br>Nhấn xem đầy đủ để hiển thị mô tả chi tiết của sách.
-          </div>
-        </div>
-        <div class="tab-pane fade" id="tab-toc">
-          <div class="tab-content-body" id="detail-book-toc">
-            <ul class="toc-list">
-              <li>Chương 1: Khởi đầu</li>
-              <li>Chương 2: Hành trình</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Comments -->
-    <div class="yellow-header-box mb-4">
-      <div class="yellow-header">BÌNH LUẬN</div>
-      <div class="comments-body">
-        <div class="comment-item">
-          <div class="comment-avatar">T</div>
-          <div class="comment-content">
-            <strong>Tiến</strong>
-            <p>Mình không mua được sách Admin ơi?</p>
-            <div class="comment-actions"><a href="#">Trả lời</a><span> - 23 giờ trước</span></div>
-            
-            <!-- Nested Reply -->
-            <div class="comment-reply">
-              <img src="assets/images/benito-logo-short.svg" class="reply-avatar" alt="Admin" onerror="this.src='assets/images/tag-hoi-vien.svg'">
-              <div class="reply-content">
-                <strong>Thành Luân</strong> <span class="badge-admin">Quản Trị Viên</span>
-                <p>Chào bạn!<br>Bên mình đã nhắn tin hướng dẫn, bạn vui lòng kiểm tra email nhé!<br>Xin cảm ơn bạn.</p>
-                <div class="comment-actions"><a href="#">Trả lời</a><span> - 23 giờ trước</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-            <div class="comment-input-wrapper text-center mt-4">
-              <div class="comment-input-box mb-3 text-start">
-                <textarea rows="3" placeholder="Mời Bạn để lại bình luận..."></textarea>
-              </div>
-              <button class="btn-comment-submit">Gửi bình luận</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Related Books -->
-        <div class="related-section mb-4">
-          <div class="section-header">
-            <h3 class="h5-title-upper"><i class="bi bi-book"></i> SÁCH CÙNG CHỦ ĐỀ</h3>
-            <a href="#" data-action="go-homepage">Xem tất cả <i class="bi bi-chevron-right"></i></a>
-          </div>
-          <div class="books-scroll-wrap" id="related-books-grid"></div>
-        </div>
-
-      </main> <!-- / .main-content -->
-
-      <!-- Sidebar Right -->
-      <aside class="sidebar details-page-sidebar">
-        <div class="vip-cta-box mb-4">
-          <img src="assets/images/vip-icon.svg" class="vip-icon-lg" alt="VIP" onerror="this.src='assets/images/tag-hoi-vien.svg'">
-          <p>Đọc toàn bộ kho sách 10,000+<br>sách điện tử, sách nói, sách<br>tương tác... trên toàn hệ thống<br>benbooks</p>
-          <button class="btn-tro-thanh-hv">Trở thành hội viên</button>
-        </div>
-        
-        <div id="detail-sidebar-content">
-          <!-- Sẽ được fill bằng createSidebarHTML() nhưng kế thừa CSS vàng -->
-        </div>
-      </aside>
-
-    </div> <!-- / .main-layout -->
+      <span id="detail-crumb-title">...</span>
+    </nav>
   </div>
+</div>
+
+<!-- ============ DETAIL CONTENT ============ -->
+<div class="detail-top-bg pb-4">
+  <div class="detail-wrapper container-1440">
+
+        <div class="row g-4 mb-4">
+          <!-- LEFT: Cover + Thumbs -->
+          <div class="col-lg-6">
+            <div class="detail-cover-wrap">
+              <div class="detail-cover-box" id="detail-cover-box">
+                <img loading="lazy" src="" id="detail-cover-img" alt="Book Cover" class="hidden-init">
+                <span id="detail-cover-loading">Đang tải...</span>
+              </div>
+              <!-- Tag Hội Viên Overlay -->
+              <img loading="lazy" src="assets/images/tag-hoi-vien.svg" alt="Hội Viên Tag" class="cover-tag-vip" id="detail-cover-tag" style="display:none;">
+            </div>
+            
+            <!-- Thumbs Carousel Strip -->
+            <div class="detail-thumbs-container" id="detail-thumbs-list">
+              <!-- Sẽ được fill bằng app.js -->
+            </div>
+          </div>
+
+          <!-- RIGHT: Book Info -->
+          <div class="col-lg-6 detail-info-column">
+            <h1 class="detail-h1" id="detail-book-title">[Ebook] Đang tải...</h1>
+            <p class="detail-subtitle" id="detail-subtitle">Subtitle title</p>
+
+            <div class="detail-meta">
+              <span class="detail-rating"><strong id="detail-book-rating">4.5</strong> <span class="stars" style="color: #FFC300;">★★★★★</span></span>
+              <span class="meta-divider"></span>
+              <span class="detail-views"><strong id="detail-book-views">52358</strong> Lượt xem</span>
+              <span class="meta-divider"></span>
+              <span class="detail-editions"><strong id="detail-book-editions">3639</strong> Lượt đọc</span>
+              
+              <div class="meta-action-right">
+                <button class="btn-share-round" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), 'targetWindow', 'width=600,height=400'); return false;" title="Chia sẻ"><i class="bi bi-share"></i></button>
+              </div>
+            </div>
+
+            <table class="detail-info-table">
+              <tr>
+                <td class="lbl">Danh mục:</td>
+                <td id="detail-cat-link">
+                  <a href="#" class="category-tag text-decoration-none" style="color: #2F69FD; margin-right: 8px;">Sách tham khảo</a>
+                  <a href="#" class="category-tag text-decoration-none" style="color: #2F69FD;">Giáo dục</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="lbl">Gói cước:</td>
+                <td id="detail-package">
+                  <img loading="lazy" src="assets/images/tag-hoi-vien.svg" alt="Hội Viên" style="height: 32px; transform: scaleX(1.5); transform-origin: left; vertical-align: middle;">
+                </td>
+              </tr>
+            </table>
+
+            <div class="detail-formats-section">
+              <p class="detail-label">Chọn loại</p>
+              <div class="detail-formats-grid" id="detail-format-selector">
+                <!-- Cards format hiển thị tại đây -->
+              </div>
+            </div>
+
+            <button class="btn-read-now-large" id="btn-read-now">Đọc ngay</button>
+          </div>
+        </div>
+      </div>
+    </div> <!-- / .detail-top-bg -->
+
+    <!-- Bottom Block: Two Column Layout (Left Info, Right Sidebar) -->
+    <div class="detail-bottom-bg py-5">
+      <div class="container-1440">
+        <div class="main-layout detail-bottom-layout">
+          <!-- Main Content Left -->
+          <main class="main-content">
+            
+            <!-- Author & Publisher Section -->
+            <div class="author-publisher-wrapper mb-4" style="background:var(--white); border-radius:var(--radius-lg); padding: 16px 20px; box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap;">
+              <div class="col-12 col-md-6 mb-3 mb-md-0" style="padding-right: 20px; border-right: 1px solid var(--grayline);">
+                <div class="author-pub-block">
+                  <span class="ap-label">Tác giả</span>
+                  <div class="ap-content">
+                    <div class="d-flex align-items-center">
+                      <img loading="lazy" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100" class="author-avatar-img" alt="Elizabeth Cole" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+                      <div class="ms-3">
+                        <div class="author-name-row">
+                          <strong id="detail-author-name">Elizabeth Cole</strong>
+                        </div>
+                        <div class="author-role" id="author-role">Chủ biên</div>
+                      </div>
+                    </div>
+                    <button class="btn-xem-chi-tiet">Xem chi tiết</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-12 col-md-6" style="padding-left: 20px;">
+                <div class="author-pub-block">
+                  <span class="ap-label">Được bán bởi:</span>
+                  <div class="ap-content">
+                    <div class="d-flex align-items-center">
+                      <img loading="lazy" src="assets/images/benito-logo-short.svg" class="nxb-logo" alt="NXB Logo" onerror="this.src='assets/images/tag-hoi-vien.svg'" style="background:var(--primary); padding: 4px; border:none; border-radius: 8px;">
+                      <div class="ms-3">
+                        <div class="publisher-name" id="publisher-name">Công ty CP văn hóa và bản quyền Benito</div>
+                        <div class="publisher-addr"><i class="bi bi-shield-check" style="color:#28a745"></i> Nhà phát hành tin cậy</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Publication Info -->
+            <div class="yellow-header-box mb-4">
+              <div class="yellow-header">THÔNG TIN XUẤT BẢN</div>
+              <div class="pub-grid">
+                <div class="pub-cell pub-label"><i class="bi bi-building"></i> NXB:</div>
+                <div class="pub-cell">Benbooks</div>
+                <div class="pub-cell pub-label"><i class="bi bi-person"></i> Người dịch:</div>
+                <div class="pub-cell">Phạm Vĩnh Cư</div>
+
+                <div class="pub-cell pub-label"><i class="bi bi-calendar"></i> Năm XB:</div>
+                <div class="pub-cell">2019</div>
+                <div class="pub-cell pub-label"><i class="bi bi-book"></i> Loại sách:</div>
+                <div class="pub-cell">Ebook; Sách giấy; Audio Book</div>
+
+                <div class="pub-cell pub-label"><i class="bi bi-rulers"></i> Kt bìa:</div>
+                <div class="pub-cell">16x24 cm</div>
+                <div class="pub-cell pub-label"><i class="bi bi-file-earmark-text"></i> Số trang:</div>
+                <div class="pub-cell">202 trang</div>
+
+                <div class="pub-cell pub-label"><i class="bi bi-globe"></i> Quốc gia:</div>
+                <div class="pub-cell">Đức</div>
+                <div class="pub-cell pub-label"><i class="bi bi-translate"></i> Ngôn ngữ:</div>
+                <div class="pub-cell">Tiếng Việt</div>
+                
+                <div class="pub-cell pub-label"><i class="bi bi-upc-scan"></i> Mã ISBN:</div>
+                <div class="pub-cell">978-604-82-3892-6</div>
+                <div class="pub-cell pub-label"><i class="bi bi-phone"></i> Mã ISBN Điện tử:</div>
+                <div class="pub-cell">978-604-82-3892-6</div>
+              </div>
+            </div>
+
+            <!-- Tabs: Giới thiệu / Mục lục -->
+            <div class="detail-tabs mb-4">
+              <div class="yellow-tabs-bar">
+                <ul class="nav nav-pills" role="tablist">
+                  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-intro">Giới thiệu</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-toc">Mục lục</button></li>
+                </ul>
+              </div>
+              <div class="tab-content yellow-tabs-content">
+                <div class="tab-pane fade show active" id="tab-intro">
+                  <div class="tab-content-body" id="detail-book-desc" style="padding: 24px 16px; color: var(--text-dark); position: relative; max-height: 200px; overflow: hidden;">
+                    <strong>Cơ thể siêu rắc rối</strong><br><br>Nhấn xem đầy đủ để hiển thị mô tả chi tiết của sách.
+                  </div>
+                  <div class="text-center pb-4 pt-2"><button class="btn btn-outline-warning rounded-pill" style="font-weight: 600; padding: 6px 24px; color: var(--text-dark); border: 2px solid var(--primary); background: #fff;"><i class="bi bi-chevron-down" style="padding-right: 4px;"></i> Xem đầy đủ</button></div>
+                </div>
+                <div class="tab-pane fade" id="tab-toc">
+                  <div class="tab-content-body" id="detail-book-toc" style="padding: 24px 16px; color: var(--text-dark); position: relative; max-height: 200px; overflow: hidden;">
+                    <ul class="toc-list">
+                      <li>Chương 1: Khởi đầu</li>
+                      <li>Chương 2: Hành trình</li>
+                    </ul>
+                  </div>
+                  <div class="text-center pb-4 pt-2"><button class="btn btn-outline-warning rounded-pill" style="font-weight: 600; padding: 6px 24px; color: var(--text-dark); border: 2px solid var(--primary); background: #fff;"><i class="bi bi-chevron-down" style="padding-right: 4px;"></i> Xem đầy đủ</button></div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- Related Books -->
+            <div class="related-section mb-4">
+              <div class="section-header" style="padding: 0 20px;">
+                <h3 class="h5-title-upper"><i class="bi bi-book"></i> SÁCH CÙNG CHỦ ĐỀ</h3>
+              </div>
+              <div class="suggested-carousel-wrap position-relative">
+                <button class="btn-carousel-nav prev" style="position: absolute; left: 0px; top:38%; transform:translateY(-50%); z-index:10; border-radius:50%; width:40px; height:40px; border:1px solid var(--grayline); background:#fff; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><i class="bi bi-chevron-left" style="line-height:0; display:flex; margin-right:2px;"></i></button>
+                <div class="books-scroll-wrap" id="related-books-grid" style="overflow-x:auto; display:flex; gap: 24px; scroll-snap-type: x mandatory; padding: 4px 20px 16px 20px; -ms-overflow-style:none; scrollbar-width:none;"></div>
+                <button class="btn-carousel-nav next" style="position: absolute; right: 0px; top:38%; transform:translateY(-50%); z-index:10; border-radius:50%; width:40px; height:40px; border:1px solid var(--grayline); background:#fff; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><i class="bi bi-chevron-right" style="line-height:0; display:flex; margin-left:2px;"></i></button>
+              </div>
+            </div>
+
+
+          </main> <!-- / .main-content -->
+
+          <!-- Sidebar Right -->
+          <aside class="sidebar details-page-sidebar">
+            <div class="vip-cta-box mb-4" style="background:#fff; border-radius:8px; padding:16px;">
+              <div style="display:flex; justify-content:center; margin-bottom: 12px;">
+                <img loading="lazy" src="assets/images/vip-badge-yellow.svg" class="vip-icon-lg" alt="VIP" onerror="this.src='assets/images/vip-icon.svg'" style="max-height:80px;">
+              </div>
+              <p style="font-size:16px; font-weight:700; text-align:center; margin-bottom:16px; line-height:1.4; color: var(--text-dark);">Đọc toàn bộ kho sách 10,000+<br>sách điện tử, sách nói, sách<br>tương tác... trên toàn hệ thống<br>benbooks</p>
+              <button class="btn-tro-thanh-hv" onclick="showWelcomeModal()" style="width:100%; border-radius:24px; padding:10px; background:var(--primary); color:var(--text-dark); font-weight:700; border:none; font-size:16px;">Trở thành hội viên</button>
+            </div>
+          </aside>
+
+        </div> <!-- / .main-layout -->
+      </div>
+    </div> <!-- / .detail-bottom-bg -->
+  
 
   <!-- FULL WIDTH SUGGESTION BLOCK -->
-  <div class="suggested-fullwidth-block">
+  <div class="suggested-fullwidth-block" style="padding-bottom: 24px;">
     <div class="container-1440">
-      <h3 class="h5-title-upper text-uppercase" style="font-weight:700">GỢI Ý CHO BẠN</h3>
-      <div class="suggested-carousel-wrap">
-        <button class="btn-carousel-nav prev"><i class="bi bi-chevron-left"></i></button>
-        <div class="books-scroll-wrap" id="suggested-books-grid"></div>
-        <button class="btn-carousel-nav next"><i class="bi bi-chevron-right"></i></button>
+      <div class="section-header mb-3" style="border-bottom: 2px solid var(--primary); padding-bottom: 8px;">
+        <h3 class="h5-title-upper text-uppercase" style="font-weight:700; margin:0; padding-left: 20px;"><i class="bi bi-stars" style="color:var(--primary)"></i> GỢI Ý CHO BẠN</h3>
+      </div>
+      <div class="suggested-carousel-wrap position-relative">
+        <button class="btn-carousel-nav prev" style="position: absolute; left:0px; top:38%; transform:translateY(-50%); z-index:10; border-radius:50%; width:40px; height:40px; border:1px solid var(--grayline); background:#fff; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><i class="bi bi-chevron-left" style="line-height:0; display:flex; margin-right:2px;"></i></button>
+        <div class="books-scroll-wrap" id="suggested-books-grid" style="overflow-x:auto; display:flex; gap: 24px; scroll-snap-type: x mandatory; padding: 4px 20px 16px 20px; -ms-overflow-style:none; scrollbar-width:none;"></div>
+        <button class="btn-carousel-nav next" style="position: absolute; right:0px; top:38%; transform:translateY(-50%); z-index:10; border-radius:50%; width:40px; height:40px; border:1px solid var(--grayline); background:#fff; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><i class="bi bi-chevron-right" style="line-height:0; display:flex; margin-left:2px;"></i></button>
       </div>
     </div>
   </div>
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer" style="margin-top:36px">
-    <div class="footer-bottom">Copyright &copy; 2024 - Benito. All rights reserved.</div>
-  </footer>
 
   <!-- ============ READER OVERLAY ============ -->
   <div class="reader-overlay" id="reader-overlay">
-    <div class="reader-header">
-      <button onclick="closeReader()"><i class="bi bi-arrow-left"></i> Quay lại</button>
+    <div class="reader-header-bar">
+      <div class="reader-header-left">
+        <button data-action="close-reader"><i class="bi bi-arrow-left"></i> Đóng</button>
+        <button id="btn-toggle-toc" class="reader-toc-btn"><i class="bi bi-list"></i> Mục lục</button>
+      </div>
       <span class="reader-title" id="reader-book-title">Đang đọc...</span>
-      <div class="reader-nav">
-        <button onclick="closeReader()"><i class="bi bi-x-lg"></i></button>
+      <div class="reader-header-right">
+        <button id="btn-font-decrease" class="reader-font-btn" title="Thu nhỏ chữ"><i class="bi bi-type"></i>−</button>
+        <span class="reader-font-size" id="reader-font-size">16</span>
+        <button id="btn-font-increase" class="reader-font-btn" title="Phóng to chữ"><i class="bi bi-type"></i>+</button>
+        <button id="btn-reader-settings" title="Cài đặt"><i class="bi bi-gear"></i></button>
+        <button data-action="close-reader"><i class="bi bi-x-lg"></i></button>
+        
+        <!-- Settings Panel -->
+        <div class="reader-settings-panel" id="reader-settings-panel">
+          <div class="setting-group">
+            <span class="setting-label">Màu nền</span>
+            <div class="setting-options">
+              <button class="setting-btn setting-theme-light active" data-theme="light">Sáng</button>
+              <button class="setting-btn setting-theme-sepia" data-theme="sepia">Vàng</button>
+              <button class="setting-btn setting-theme-dark" data-theme="dark">Tối</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <span class="setting-label">Phông chữ</span>
+            <div class="setting-options">
+              <button class="setting-btn active" data-font="sans-serif">Hiện đại</button>
+              <button class="setting-btn" data-font="serif" style="font-family: Georgia, serif;">Sách in</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <span class="setting-label">Giãn dòng</span>
+            <div class="setting-options">
+              <button class="setting-btn" data-lineheight="1.4">Hẹp</button>
+              <button class="setting-btn active" data-lineheight="1.8">Vừa</button>
+              <button class="setting-btn" data-lineheight="2.2">Rộng</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="reader-body" id="reader-body">
-      <div class="reader-content" id="reader-content"></div>
+    <div class="reader-main">
+      <!-- TOC Sidebar -->
+      <div class="reader-toc-panel" id="reader-toc-panel">
+        <div class="reader-toc-header"><strong>Mục lục</strong></div>
+        <ul class="reader-toc-list" id="reader-toc-list"></ul>
+      </div>
+      <!-- EPUB Viewer -->
+      <div class="reader-body" id="reader-body">
+        <div class="reader-loading" id="reader-loading">
+          <div class="spinner-border text-warning" role="status"></div>
+          <p>Đang tải sách...</p>
+        </div>
+        <div id="epub-viewer"></div>
+      </div>
     </div>
-    <div class="reader-footer">
+    <div class="reader-footer-bar">
       <button id="btn-prev-page"><i class="bi bi-chevron-left"></i> Trang trước</button>
-      <span class="page-indicator" id="page-indicator">Trang 1 / 4</span>
+      <span class="page-indicator" id="page-indicator">Đang tải...</span>
       <button id="btn-next-page">Trang sau <i class="bi bi-chevron-right"></i></button>
     </div>
   </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer" id="site-footer">
+    <div class="footer-inner container-1440">
+      <div class="footer-grid">
+        <div class="footer-col footer-company-info">
+          <h5>Công ty cổ phần Văn hóa và Bản quyền Benito</h5>
+          <p class="company-time">(Hoạt động từ 8h - 17h, Thứ 2 - Thứ 7)</p>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+            <p>Lô 35 Khu Bãi Sậy, phường Hà Đông, TP. Hà Nội</p>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+            <p>Hotline: <strong>0888 080 290</strong></p>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+            <p>Email: haianh.pham@benitovn.com</p>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon"><i class="bi bi-file-earmark-text"></i></div>
+            <p>Mã số thuế: 0109653575</p>
+          </div>
+        </div>
+        <div class="footer-col footer-nav-group">
+          <h5>Hỗ trợ khách hàng</h5>
+          <ul>
+            <li><a href="#">Hướng dẫn đọc sách ebook</a></li>
+            <li><a href="#">Hướng dẫn thuê sách ebook</a></li>
+            <li><a href="#">Hướng dẫn đăng ký tài khoản</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-nav-group">
+          <h5>Chính sách - điều khoản</h5>
+          <ul>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-nav-group">
+          <h5>Về chúng tôi</h5>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Liên hệ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <div class="app-downloads">
+          <img loading="lazy" src="assets/images/download-ios.svg" alt="App Store">
+          <img loading="lazy" src="assets/images/download-chplay.svg" alt="Google Play">
+        </div>
+        <div class="footer-cert">
+          <img loading="lazy" src="assets/images/bo-cong-thuong.png" alt="Bộ Công Thương">
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">Copyright &copy; 2021 - Benito. All rights reserved.</div>
+  </footer>
 
   <!-- ============ WELCOME MODAL (reuse) ============ -->
   <div class="modal fade" id="welcomeModal" tabindex="-1" aria-hidden="true">
@@ -329,10 +432,10 @@
   <!-- ============ FLOATING ACTIONS ============ -->
   <div class="floating-actions">
     <button class="floating-btn messenger" title="Messenger">
-      <img src="assets/images/Messenger.svg" alt="Messenger">
+      <img loading="lazy" src="assets/images/Messenger.svg" alt="Messenger">
     </button>
     <button class="floating-btn zalo" title="Zalo">
-      <img src="assets/images/zalo.svg" alt="Zalo">
+      <img loading="lazy" src="assets/images/zalo.svg" alt="Zalo">
     </button>
     <button class="floating-btn scroll-top" id="btn-scroll-top" title="Lên đầu trang">
       <i class="bi bi-chevron-up"></i>
@@ -350,8 +453,11 @@
       });
     });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
+
+
 

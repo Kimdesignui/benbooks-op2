@@ -67,10 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Khởi tạo trang nếu đang view thẳng bằng HTML standalone
   if (document.body.getAttribute('data-page') === 'detail') {
     const dummyBook = typeof BOOKS_DATA !== 'undefined' && BOOKS_DATA.length ? BOOKS_DATA[0] : {};
-    if (typeof renderBookDetail === 'function') renderBookDetail(dummyBook);
-    if (typeof renderRelatedBooks === 'function') renderRelatedBooks(dummyBook);
-    if (typeof renderSuggestedBooks === 'function') renderSuggestedBooks(dummyBook);
-    if (typeof renderDetailSidebar === 'function') renderDetailSidebar();
+    try { renderBookDetail(dummyBook); } catch(e) { console.warn('[BenBooks] renderBookDetail error:', e); }
+    try { renderRelatedBooks(dummyBook); } catch(e) { console.warn('[BenBooks] renderRelatedBooks error:', e); }
+    try { renderSuggestedBooks(dummyBook); } catch(e) { console.warn('[BenBooks] renderSuggestedBooks error:', e); }
+    try { renderDetailSidebar(); } catch(e) { console.warn('[BenBooks] renderDetailSidebar error:', e); }
   }
   // App starts on SMS screen — header/footer hidden (SPA)
 });
@@ -387,7 +387,7 @@ function createBookCard(book) {
     <div class="book-cover-wrapper">
       <div class="book-type-badge ${typeCls}"><i class="bi ${typeIcon}"></i> ${typeLabel}</div>
       ${cover}${fallback}
-      <div class="book-vip-badge"><img src="${vipTagSrc}" alt="Hội viên" class="vip-tag-img"></div>
+      <div class="book-vip-badge"><img src="${vipTagSrc}" alt="Hội viên" class="vip-tag-img" loading="lazy"></div>
     </div>
     <div class="book-info"><div class="book-title">${book.title}</div></div>
   </div>`;
@@ -446,11 +446,11 @@ function renderBookDetail(book) {
     const tryIcon = normalizeImageUrl(book.type === 'Audio' ? 'assets/images/nghe-thu.svg' : 'assets/images/doc-thu.svg');
     const tryLabel = book.type === 'Audio' ? 'Nghe thử' : 'Đọc thử';
     thumbs.innerHTML = `
-      <div class="thumb-item active" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><img src="${coverSrc}" alt=""></div>
-      <div class="thumb-item" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><img src="${coverSrc}" alt=""></div>
-      <div class="thumb-item" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><img src="${coverSrc}" alt=""></div>
+      <div class="thumb-item active" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><img src="${coverSrc}" alt="" loading="lazy"></div>
+      <div class="thumb-item" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><img src="${coverSrc}" alt="" loading="lazy"></div>
+      <div class="thumb-item" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><img src="${coverSrc}" alt="" loading="lazy"></div>
       <div class="thumb-action-box" data-fancybox="gallery" data-src="${coverSrc}" style="cursor:zoom-in"><span>Xem thêm<br>hình ảnh</span></div>
-      <button class="thumb-action-box light-mode" data-action="read-trial" data-url="${book.readTrialUrl || '#'}"><img src="${tryIcon}" alt="${tryLabel}"><span>${tryLabel}</span></button>`;
+      <button class="thumb-action-box light-mode" data-action="read-trial" data-url="${book.readTrialUrl || '#'}"><img src="${tryIcon}" alt="${tryLabel}" loading="lazy"><span>${tryLabel}</span></button>`;
   }
 
   // Text fields
@@ -462,7 +462,7 @@ function renderBookDetail(book) {
   setText('detail-book-views', (book.views || 0).toLocaleString());
   setText('detail-book-editions', (book.editions || 0).toLocaleString());
   const packageEl = document.getElementById('detail-package');
-  if (packageEl) packageEl.innerHTML = `<img src="${normalizeImageUrl('assets/images/tag-hoi-vien.svg')}" alt="Hội Viên" style="height: 22px; vertical-align: middle;">`;
+  if (packageEl) packageEl.innerHTML = `<img src="${normalizeImageUrl('assets/images/tag-hoi-vien.svg')}" alt="Hội Viên" style="height: 32px; vertical-align: middle;" loading="lazy">`;
 
   // Categories
   const catLink = document.getElementById('detail-cat-link');
@@ -475,13 +475,12 @@ function renderBookDetail(book) {
   const fmtBox = document.getElementById('detail-format-selector');
   if (fmtBox) {
     fmtBox.innerHTML = [
-      { icon: 'assets/images/sach-in.svg', label: 'Sách in', active: false },
       { icon: 'assets/images/ebook.svg', label: 'Ebook', active: book.type === 'Ebook' },
       { icon: 'assets/images/audiobook.svg', label: 'Audio', active: book.type === 'Audio' },
       { icon: 'assets/images/multi-books.svg', label: 'Sách<br>tương tác', active: false }
     ].map(f => `<div class="format-box ${f.active ? 'active' : ''}">
-      <img src="${normalizeImageUrl(f.icon)}" alt="${f.label}">
-      <span>${f.label}</span>
+        <img src="${normalizeImageUrl(f.icon)}" alt="${f.label}" loading="lazy">
+        <span>${f.label}</span>
     </div>`).join('');
   }
 
@@ -524,7 +523,18 @@ function renderBookDetail(book) {
   setText('pub-pages', `${book.pages || '—'} trang`);
   setText('pub-type', book.type || 'Ebook');
 
-  prepareReaderPages();
+  if (typeof prepareReaderPages === 'function') prepareReaderPages();
+}
+
+/**
+ * Prepares the HTML-based reader pages (fallback when epub.js is not available).
+ * Uses SAMPLE_BOOK_CONTENT to split content into pageable chunks.
+ */
+function prepareReaderPages() {
+  const readerContent = document.getElementById('reader-content');
+  if (!readerContent) return;
+  if (typeof SAMPLE_BOOK_CONTENT === 'undefined') return;
+  readerContent.innerHTML = SAMPLE_BOOK_CONTENT;
 }
 
 /**
@@ -890,8 +900,7 @@ function bindAllEvents() {
     const card = target.closest('.book-card');
     if (card) {
       const id = parseInt(card.dataset.bookId);
-      const book = BOOKS_DATA.find(b => b.id === id) || BOOKS_DATA[0];
-      navigateTo('detail', book);
+      window.location.href = `detail.html?id=${id}`;
       return;
     }
 
