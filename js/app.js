@@ -237,12 +237,14 @@ function handleGoLibrary() {
 
 /** Updates the user avatar button to show logged-in state */
 function updateUserButton() {
-  const btn = document.getElementById('btn-user');
-  if (btn) {
+  const btnIds = ['btn-user', 'btn-user-desktop', 'btn-user-mobile'];
+  btnIds.forEach((id) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
     btn.innerHTML = '<i class="bi bi-person-check-fill"></i>';
     btn.title = 'Tài khoản';
     btn.removeAttribute('data-action');
-  }
+  });
 }
 
 // =============================================
@@ -875,17 +877,19 @@ function bindAllEvents() {
     }
 
     // User avatar → login
-    const userBtn = target.closest('#btn-user');
+    const userBtn = target.closest('#btn-user, #btn-user-desktop, #btn-user-mobile');
     if (userBtn && !localStorage.getItem('benbooks_loggedIn')) {
-      e.preventDefault();
-      navigateTo('login');
+      if (document.getElementById('page-homepage')) {
+        e.preventDefault();
+        navigateTo('login');
+      }
       return;
     }
 
     // Gói Cước header
     if (target.closest('#btn-goicuoc-header')) {
-      const m = new bootstrap.Modal(document.getElementById('activateModal'));
-      m.show();
+      if (document.getElementById('page-homepage')) e.preventDefault();
+      window.location.href = 'goi-cuoc.html';
       return;
     }
 
