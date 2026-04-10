@@ -166,12 +166,7 @@ function handleSmsLink() {
     smsPage.style.transition = 'opacity 0.6s ease';
     smsPage.style.opacity = '0';
     setTimeout(() => {
-      navigateTo('homepage');
-      // Step 2: Show activation modal
-      setTimeout(() => {
-        const modal = new bootstrap.Modal(document.getElementById('activateModal'));
-        modal.show();
-      }, 400);
+      navigateTo('login');
     }, 600);
   }
 }
@@ -181,12 +176,6 @@ function handleSmsLink() {
 // =============================================
 
 /** Handles the "KÍCH HOẠT TÀI KHOẢN" button — hides modal and navigates to login */
-function handleActivate() {
-  const modal = bootstrap.Modal.getInstance(document.getElementById('activateModal'));
-  if (modal) modal.hide();
-  setTimeout(() => navigateTo('login'), 300);
-}
-
 // =============================================
 // STEP 3: Login → Success Modal
 // =============================================
@@ -861,13 +850,7 @@ function bindAllEvents() {
       return;
     }
 
-    // Activate button (Step 2)
-    if (target.closest('#btn-activate-account')) {
-      handleActivate();
-      return;
-    }
-
-    // Login button (Step 3)
+    // Login button (Step 2)
     if (target.closest('#btn-login')) {
       handleLogin();
       return;
