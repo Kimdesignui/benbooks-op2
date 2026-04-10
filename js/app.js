@@ -11,6 +11,8 @@ let currentPage = 'sms';
 let currentBook = null;
 let currentFilter = 'all';
 let currentSort = 'popular';
+let currentPageIndex = 1;
+const BOOKS_PER_PAGE = 30;
 
 // EPUB Reader state
 let epubBook = null;
@@ -211,7 +213,13 @@ function handleLogin() {
       localStorage.setItem('benbooks_phone', phone);
       updateUserButton();
 
-      // Navigate to homepage then show success modal
+      // Standalone login page: go straight to account page.
+      if (!document.getElementById('page-homepage')) {
+        window.location.href = 'my-account.html';
+        return;
+      }
+
+      // SPA flow: navigate to homepage then show success modal
       navigateTo('homepage');
       setTimeout(() => {
         const modal = new bootstrap.Modal(document.getElementById('successModal'));
@@ -243,6 +251,7 @@ function updateUserButton() {
     if (!btn) return;
     btn.innerHTML = '<i class="bi bi-person-check-fill"></i>';
     btn.title = 'Tài khoản';
+    if (btn.tagName === 'A') btn.setAttribute('href', 'my-account.html');
     btn.removeAttribute('data-action');
   });
 }
@@ -383,8 +392,14 @@ function renderBooks(filter) {
   const countEl = document.getElementById('book-count');
   if (countEl) countEl.textContent = `(${books.length})`;
 
-  grid.innerHTML = books.map(b => createBookCard(b)).join('');
-  renderPagination();
+  const totalPages = Math.max(1, Math.ceil(books.length / BOOKS_PER_PAGE));
+  if (currentPageIndex > totalPages) currentPageIndex = 1;
+
+  const start = (currentPageIndex - 1) * BOOKS_PER_PAGE;
+  const pageBooks = books.slice(start, start + BOOKS_PER_PAGE);
+
+  grid.innerHTML = pageBooks.map(b => createBookCard(b)).join('');
+  renderPagination(totalPages);
 }
 
 /**
@@ -399,9 +414,8 @@ function renderBooks(filter) {
  * @returns {string} HTML string for the book card
  */
 function createBookCard(book) {
-  const typeCls = book.type === 'Audio' ? 'audio' : 'ebook';
-  const typeIcon = book.type === 'Audio' ? 'bi-headphones' : 'bi-book';
   const typeLabel = book.type === 'Audio' ? 'Audio' : 'Ebook';
+  const typeTagSrc = normalizeImageUrl(book.type === 'Audio' ? 'assets/images/audio-tag.svg' : 'assets/images/ebook-tag.svg');
 
   const coverSrc = normalizeImageUrl(book.coverImage);
   validateImageUrl(book.coverImage);
@@ -415,7 +429,10 @@ function createBookCard(book) {
 
   return `<div class="book-card" data-book-id="${book.id}">
     <div class="book-cover-wrapper">
-      <div class="book-type-badge ${typeCls}"><i class="bi ${typeIcon}"></i> ${typeLabel}</div>
+      <div class="book-type-badge">
+        <img src="${typeTagSrc}" alt="" class="book-type-tag-icon" loading="lazy">
+        <span class="book-type-tag-text">${typeLabel}</span>
+      </div>
       ${cover}${fallback}
       <div class="book-vip-badge"><img src="${vipTagSrc}" alt="Hội viên" class="vip-tag-img" loading="lazy"></div>
     </div>
@@ -424,13 +441,37 @@ function createBookCard(book) {
 }
 
 /** Renders pagination controls */
-function renderPagination() {
+function renderPagination(totalPages = 1) {
   const list = document.getElementById('pagination-list');
   if (!list) return;
-  const pages = Math.ceil((BOOKS_DATA?.length || 0) / 30) || 1;
-  let h = `<li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>`;
-  for (let i = 1; i <= pages; i++) h += `<li class="page-item ${i === 1 ? 'active' : ''}"><a class="page-link" href="#">${i}</a></li>`;
-  h += `<li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>`;
+  const pages = Math.max(1, totalPages);
+  const current = Math.min(currentPageIndex, pages);
+  let pageNums = [];
+
+  if (pages <= 5) {
+    pageNums = Array.from({ length: pages }, (_, i) => i + 1);
+  } else if (current <= 3) {
+    pageNums = [1, 2, 3, 'dots', pages];
+  } else if (current >= pages - 2) {
+    pageNums = [1, 'dots', pages - 2, pages - 1, pages];
+  } else {
+    pageNums = [1, 'dots', current - 1, current, current + 1, 'dots', pages];
+  }
+
+  let h = '';
+  h += `<li class="page-item ${current === 1 ? 'disabled' : ''}"><a class="page-link page-link-nav" href="#" data-page-action="first" aria-label="Trang đầu"><i class="bi bi-chevron-double-left"></i></a></li>`;
+  h += `<li class="page-item ${current === 1 ? 'disabled' : ''}"><a class="page-link page-link-nav" href="#" data-page-action="prev" aria-label="Trang trước"><i class="bi bi-chevron-left"></i></a></li>`;
+
+  pageNums.forEach(p => {
+    if (p === 'dots') {
+      h += `<li class="page-item disabled"><span class="page-link page-link-dots">...</span></li>`;
+      return;
+    }
+    h += `<li class="page-item ${p === current ? 'active' : ''}"><a class="page-link" href="#" data-page="${p}">${p}</a></li>`;
+  });
+
+  h += `<li class="page-item ${current === pages ? 'disabled' : ''}"><a class="page-link page-link-nav" href="#" data-page-action="next" aria-label="Trang sau"><i class="bi bi-chevron-right"></i></a></li>`;
+  h += `<li class="page-item ${current === pages ? 'disabled' : ''}"><a class="page-link page-link-nav" href="#" data-page-action="last" aria-label="Trang cuối"><i class="bi bi-chevron-double-right"></i></a></li>`;
   list.innerHTML = h;
 }
 
@@ -497,8 +538,12 @@ function renderBookDetail(book) {
   // Categories
   const catLink = document.getElementById('detail-cat-link');
   if (catLink) {
-    const cats = book.categories || ['Sách Thiếu nhi', 'Minh họa', 'Truyện tranh'];
-    catLink.innerHTML = cats.map(c => `<span class="category-tag">${c}</span>`).join(' ');
+    const cats = (book.categories || ['Sách Thiếu nhi', 'Minh họa'])
+      .map(c => (c || '').trim())
+      .filter(Boolean);
+    catLink.innerHTML = cats
+      .map(c => `<a href="#" class="detail-category-link">${c}</a>`)
+      .join('<span class="detail-category-sep">; </span>');
   }
 
   // Format selector (normalized image paths)
@@ -870,19 +915,25 @@ function bindAllEvents() {
     // Header logo → homepage
     const logoLink = target.closest('.header-logo');
     if (logoLink) {
-      if (document.body.dataset.page === 'detail') return;
+      if (!document.getElementById('page-homepage')) return;
       e.preventDefault();
       navigateTo('homepage');
       return;
     }
 
-    // User avatar → login
+    // User avatar → login / my-account
     const userBtn = target.closest('#btn-user, #btn-user-desktop, #btn-user-mobile');
-    if (userBtn && !localStorage.getItem('benbooks_loggedIn')) {
-      if (document.getElementById('page-homepage')) {
-        e.preventDefault();
-        navigateTo('login');
+    if (userBtn) {
+      const isLoggedIn = localStorage.getItem('benbooks_loggedIn') === 'true';
+      if (!isLoggedIn) {
+        if (document.getElementById('page-homepage')) {
+          e.preventDefault();
+          navigateTo('login');
+        }
+        return;
       }
+      e.preventDefault();
+      window.location.href = 'my-account.html';
       return;
     }
 
@@ -899,6 +950,7 @@ function bindAllEvents() {
       document.querySelectorAll('.filter-badge').forEach(b => b.classList.remove('active'));
       badge.classList.add('active');
       currentFilter = badge.dataset.filter;
+      currentPageIndex = 1;
       renderBooks(currentFilter);
       return;
     }
@@ -909,6 +961,7 @@ function bindAllEvents() {
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
       sortBtn.classList.add('active');
       currentSort = sortBtn.dataset.sort || 'popular';
+      currentPageIndex = 1;
       renderBooks(currentFilter);
       return;
     }
@@ -933,7 +986,7 @@ function bindAllEvents() {
     const card = target.closest('.book-card');
     if (card) {
       const id = parseInt(card.dataset.bookId);
-      window.location.href = `detail.html?id=${id}`;
+      window.location.href = `details.html?id=${id}`;
       return;
     }
 
@@ -1043,6 +1096,24 @@ function bindAllEvents() {
       return;
     }
 
+    // Mobile floating support toggle
+    if (target.closest('#btn-floating-support')) {
+      const wrap = target.closest('.floating-actions');
+      if (wrap) {
+        const expanded = !wrap.classList.contains('expanded');
+        wrap.classList.toggle('expanded', expanded);
+        const supportIcon = wrap.querySelector('#btn-floating-support i');
+        if (supportIcon) supportIcon.className = expanded ? 'bi bi-x-lg' : 'bi bi-headset';
+      }
+      return;
+    }
+
+    // Benito floating button: open main site
+    if (target.closest('.floating-btn.benito')) {
+      window.open('https://sachbanquyen.com.vn', '_blank');
+      return;
+    }
+
     // Breadcrumb / "Xem tất cả" links → homepage
     const navHomeLink = target.closest('[data-action="go-homepage"]');
     if (navHomeLink) {
@@ -1098,7 +1169,39 @@ function bindAllEvents() {
     const pageLink = target.closest('.page-link');
     if (pageLink) {
       e.preventDefault();
+      if (pageLink.closest('.page-item')?.classList.contains('disabled')) return;
+
+      const action = pageLink.dataset.pageAction;
+      const page = parseInt(pageLink.dataset.page || '', 10);
+
+      let totalItems = BOOKS_DATA?.length || 0;
+      if (currentFilter === 'Ebook') totalItems = (BOOKS_DATA || []).filter(b => b.type === 'Ebook').length;
+      else if (currentFilter === 'Audio') totalItems = (BOOKS_DATA || []).filter(b => b.type === 'Audio').length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / BOOKS_PER_PAGE));
+
+      if (action === 'first') currentPageIndex = 1;
+      else if (action === 'prev') currentPageIndex = Math.max(1, currentPageIndex - 1);
+      else if (action === 'next') currentPageIndex = Math.min(totalPages, currentPageIndex + 1);
+      else if (action === 'last') currentPageIndex = totalPages;
+      else if (!Number.isNaN(page)) currentPageIndex = page;
+
+      renderBooks(currentFilter);
+      const booksGrid = document.getElementById('books-grid');
+      if (booksGrid) {
+        const headerOffset = 90;
+        const top = booksGrid.getBoundingClientRect().top + window.scrollY - headerOffset;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
       return;
+    }
+
+    // Click outside floating area on mobile => collapse support menu
+    if (!target.closest('.floating-actions')) {
+      document.querySelectorAll('.floating-actions.expanded').forEach((el) => {
+        el.classList.remove('expanded');
+        const supportIcon = el.querySelector('#btn-floating-support i');
+        if (supportIcon) supportIcon.className = 'bi bi-headset';
+      });
     }
   });
 

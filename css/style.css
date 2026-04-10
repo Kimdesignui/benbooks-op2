@@ -718,6 +718,14 @@ button { font-family: var(--font); }
 .breadcrumb-bar { font-size: 16px; color: var(--icon); margin-bottom: 0px; display: flex; align-items: center; justify-content: flex-start; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .breadcrumb-bar a { color: var(--icon); }
 .breadcrumb-bar a:hover { color: var(--link-blue); }
+.breadcrumb-bar .breadcrumb-sep { margin: 0 0.5em; }
+.detail-category-link {
+  color: #0068ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+.detail-category-link:hover { color: #0052cc; text-decoration: underline; }
+.detail-category-sep { color: #7a7a7a; }
 
 /* Left Column: Cover & Thumbs */
 .detail-cover-wrap {
@@ -968,13 +976,13 @@ button { font-family: var(--font); }
 .suggested-carousel-wrap {
   position: relative;
   margin-top: 24px;
+  overflow: visible;
 }
 .suggested-carousel-wrap .btn-carousel-nav {
   padding: 0;
   line-height: 0;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -986,13 +994,13 @@ button { font-family: var(--font); }
   z-index: 20;
   pointer-events: auto;
   cursor: pointer;
-  transition: background-color var(--fast), border-color var(--fast), color var(--fast), box-shadow var(--fast);
+  transition: background-color var(--fast), border-color var(--fast), color var(--fast), box-shadow var(--fast) !important;
 }
 .suggested-carousel-wrap .btn-carousel-nav:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 .suggested-carousel-wrap .btn-carousel-nav:active { background: var(--btn-gold); color: #fff; border-color: var(--btn-gold); }
-.suggested-carousel-wrap .btn-carousel-nav i { margin-top: 1px; }
-.suggested-carousel-wrap .btn-carousel-nav.prev { left: 8px; }
-.suggested-carousel-wrap .btn-carousel-nav.next { right: 8px; }
+.suggested-carousel-wrap .btn-carousel-nav i { margin-top: 0; }
+.suggested-carousel-wrap .btn-carousel-nav.prev { left: 0; transform: translate(-50%, -50%); }
+.suggested-carousel-wrap .btn-carousel-nav.next { right: 0; transform: translate(50%, -50%); }
 .suggested-carousel-wrap .books-scroll-wrap,
 .suggested-carousel-wrap .books-scroll { position: relative; z-index: 1; }
 @media (max-width: 768px) {
@@ -1210,6 +1218,72 @@ body.sidebar-open { overflow: hidden; }
 .floating-btn:hover { transform: scale(1.12); box-shadow: var(--shadow-lg); }
 .floating-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
 .floating-btn.scroll-top { background: var(--primary); color: var(--secondary); font-size: 20px; }
+.floating-btn.floating-support {
+  display: none;
+  background: #ffffff;
+  color: #2d2d2d;
+  border: 1px solid #d9d9d9;
+  font-size: 22px;
+}
+.floating-btn.benito { order: -1; position: relative; }
+.floating-btn.benito::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2d2d2d;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 500;
+  padding: 7px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--fast), transform var(--fast);
+}
+.floating-btn.benito::after {
+  content: "";
+  position: absolute;
+  right: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent #2d2d2d;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--fast);
+}
+.floating-btn.benito:hover::before,
+.floating-btn.benito:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+.floating-btn.benito:hover::before { transform: translateY(-50%) translateX(-2px); }
+
+@media (max-width: 768px) {
+  .floating-btn.floating-support {
+    display: flex;
+    order: -2;
+  }
+  .floating-actions {
+    gap: 10px;
+  }
+  .floating-actions .floating-btn.benito,
+  .floating-actions .floating-btn.messenger,
+  .floating-actions .floating-btn.zalo {
+    display: none;
+  }
+  .floating-actions.expanded .floating-btn.benito,
+  .floating-actions.expanded .floating-btn.messenger,
+  .floating-actions.expanded .floating-btn.zalo {
+    display: flex;
+  }
+}
 
 #app-toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -1464,7 +1538,6 @@ body.sidebar-open { overflow: hidden; }
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .btn-carousel-nav:hover {
-  transform: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 

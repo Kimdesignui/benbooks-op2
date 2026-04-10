@@ -61,9 +61,9 @@
   <div class="container-1440">
     <nav class="breadcrumb-bar">
       <a href="index.html"><i class="bi bi-house"></i> Trang chủ</a>
-      <span> / </span>
+      <span class="breadcrumb-sep">/</span>
       <a href="index.html" id="detail-crumb-cat">Ebook</a>
-      <span> / </span>
+      <span class="breadcrumb-sep">/</span>
       <span id="detail-crumb-title">...</span>
     </nav>
   </div>
@@ -132,8 +132,9 @@
               <tr>
                 <td class="lbl">Danh mục:</td>
                 <td id="detail-cat-link">
-                  <a href="#" class="cat-link d-inline-block hover-opacity" style="color: #D65A20; text-decoration: none; font-weight: 600; margin-right: 4px;">Sách văn học và nghệ thuật</a>, 
-                  <a href="#" class="cat-link d-inline-block hover-opacity" style="color: #D65A20; text-decoration: none; font-weight: 600; margin-left: 4px;">Sách ngoại ngữ</a>
+                  <a href="#" class="detail-category-link">Sách văn học và nghệ thuật</a>
+                  <span class="detail-category-sep">; </span>
+                  <a href="#" class="detail-category-link">Sách ngoại ngữ</a>
                 </td>
               </tr>
               <tr>
@@ -501,6 +502,12 @@
 
   <!-- ============ FLOATING ACTIONS ============ -->
   <div class="floating-actions">
+    <button class="floating-btn floating-support" id="btn-floating-support" aria-label="Support">
+      <i class="bi bi-headset"></i>
+    </button>
+    <button class="floating-btn benito" title="Benito" data-tooltip="Truy cập trang: sachbanquyen.com.vn">
+      <img loading="lazy" src="assets/images/benito-logo-short.svg" alt="Benito">
+    </button>
     <button class="floating-btn messenger" title="Messenger">
       <img loading="lazy" src="assets/images/Messenger.svg" alt="Messenger">
     </button>
