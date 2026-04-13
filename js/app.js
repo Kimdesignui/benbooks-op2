@@ -61,11 +61,23 @@ function validateImageUrl(url) {
   return true;
 }
 
+/**
+ * Syncs mobile sidebar top offset with header height.
+ * Prevents clipped bottom content and extra top gap on responsive sidebar.
+ */
+function syncMobileSidebarOffset() {
+  const header = document.getElementById('site-header');
+  const isMobile = window.matchMedia('(max-width: 992px)').matches;
+  const offset = header && isMobile ? header.offsetHeight : 0;
+  document.documentElement.style.setProperty('--mobile-sidebar-top', `${offset}px`);
+}
+
 // =============================================
 // INIT
 // =============================================
 document.addEventListener('DOMContentLoaded', () => {
   bindAllEvents();
+  syncMobileSidebarOffset();
   // Khởi tạo trang nếu đang view thẳng bằng HTML standalone
   if (document.body.getAttribute('data-page') === 'detail') {
     const dummyBook = typeof BOOKS_DATA !== 'undefined' && BOOKS_DATA.length ? BOOKS_DATA[0] : {};
@@ -77,6 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // App starts on SMS screen — header/footer hidden (SPA)
   startAutoCarousel();
 });
+
+window.addEventListener('resize', syncMobileSidebarOffset);
+window.addEventListener('orientationchange', syncMobileSidebarOffset);
 
 // =============================================
 // AUTO CAROUSEL SCROLLING
@@ -865,6 +880,7 @@ function bindAllEvents() {
     // Toggle Mobile Sidebar
     const btnMenu = target.closest('#btn-mobile-menu-btn');
     if (btnMenu) {
+      syncMobileSidebarOffset();
       const sidebar = document.getElementById('sidebar-content');
       const overlay = document.getElementById('sidebar-overlay');
       if (sidebar) sidebar.classList.toggle('active');

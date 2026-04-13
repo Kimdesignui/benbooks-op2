@@ -85,7 +85,7 @@ button { font-family: var(--font); }
 .h5-title         { font-size: 18px; font-weight: 700; line-height: 130%; letter-spacing: 0; }
 
 /* H6 - 16pt - ExtraB */
-.h6-extra         { font-size: 16px; font-weight: 800; line-height: 130%; letter-spacing: 0; }
+.h6-extra         { font-size: 16px; font-weight: 700; line-height: 130%; letter-spacing: 0; }
 
 /* H6 - Title - 16 - B (SemiBold) */
 .h6-title         { font-size: 16px; font-weight: 600; line-height: 130%; letter-spacing: 0; }
@@ -315,7 +315,7 @@ button { font-family: var(--font); }
 .header-hotline i { font-size: 26px; }
 .hotline-text { display: flex; flex-direction: column; line-height: 1.1; }
 .hotline-lbl { font-size: 13px; font-weight: 500; }
-.hotline-text strong { font-size: 16px; font-weight: 800; }
+.hotline-text strong { font-size: 16px; font-weight: 700; }
 
 .btn-goicuoc {
   background: linear-gradient(180deg, #FF9900 0%, #FF6B00 100%);
@@ -1310,10 +1310,10 @@ body.sidebar-open { overflow: hidden; }
   
   .sidebar {
      position: fixed;
-     top: 0;
+     top: var(--mobile-sidebar-top, 0px);
      left: -100%;
      width: clamp(300px, 72vw, 560px);
-     height: 100vh;
+     height: calc(100dvh - var(--mobile-sidebar-top, 0px));
      z-index: 3000;
      background: #ededed;
      box-shadow: 6px 0 24px rgba(0, 0, 0, 0.18);
@@ -1321,12 +1321,12 @@ body.sidebar-open { overflow: hidden; }
      display: block !important;
      overflow-y: auto;
      padding: 24px 0 24px 0;
-     max-height: 100vh;
+     max-height: calc(100dvh - var(--mobile-sidebar-top, 0px));
   }
   .sidebar.active { left: 0; }
   
   .sidebar-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.28); 
+    display: none; position: fixed; top: var(--mobile-sidebar-top, 0px); left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.28); 
     z-index: 2999; opacity: 0; transition: opacity var(--fast);
   }
   .sidebar-overlay.active { display: block; opacity: 1; }
@@ -1420,8 +1420,8 @@ body.sidebar-open { overflow: hidden; }
   .footer-nav-group:nth-child(2) { order: 2; }
   .footer-nav-group:nth-child(3) { order: 3; }
   .footer-nav-group:nth-child(4) { order: 4; border-bottom: 1px solid var(--grayline); padding-bottom: 16px; }
-  .footer-bottom-row { flex-direction: column; align-items: center; gap: 24px; padding-top: 24px; border-top: none; }
-  .app-downloads { flex-direction: column; align-items: center; gap: 16px; }
+  .footer-bottom-row { flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 24px; border-top: none; }
+  .app-downloads { flex-direction: column; align-items: flex-start; gap: 16px; }
   .reader-content { padding: 24px 16px; column-count: 1; }
   .iphone-notch { transform: translateX(-50%) scale(0.9); transform-origin: top center; }
   
@@ -1622,7 +1622,7 @@ body.sidebar-open { overflow: hidden; }
   border-radius: 999px;
   margin-bottom: 14px;
 }
-.auth-benefit-card h1 { font-size: 32px; line-height: 1.25; font-weight: 800; margin-bottom: 14px; }
+.auth-benefit-card h1 { font-size: 32px; line-height: 1.25; font-weight: 700; margin-bottom: 14px; }
 .auth-sub { color: #5c5c5c; margin-bottom: 18px; }
 .auth-benefits-list { margin: 0; padding: 0; }
 .auth-benefits-list li {
@@ -1638,7 +1638,7 @@ body.sidebar-open { overflow: hidden; }
 
 .auth-form-card { padding: 28px; }
 .auth-form-head { text-align: center; }
-.auth-form-head h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; text-align: center; }
+.auth-form-head h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; text-align: center; }
 .auth-form-head p { color: #686868; margin-bottom: 18px; text-align: center; }
 .auth-input-group .input-group-text { background: #FFF7DB; border-color: #E8DDB7; }
 .auth-input-group .form-control { border-color: #E8DDB7; min-height: 48px; }
@@ -1651,11 +1651,11 @@ body.sidebar-open { overflow: hidden; }
 .pricing-page { background: linear-gradient(180deg, #FFF8E6 0%, #FFF4D9 100%); }
 .pricing-hero { text-align: center; max-width: 900px; margin-left: auto; margin-right: auto; }
 .pricing-overline { color: #926400; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
-.pricing-hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+.pricing-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
 .pricing-hero p { color: #5f5f5f; margin-bottom: 0; }
 
 .pricing-card { padding: 22px; position: relative; overflow: hidden; }
-.pricing-card h3 { font-size: 24px; font-weight: 800; margin: 10px 0; }
+.pricing-card h3 { font-size: 24px; font-weight: 700; margin: 10px 0; }
 .pricing-chip {
   display: inline-block;
   font-size: 13px;
@@ -1685,12 +1685,12 @@ body.sidebar-open { overflow: hidden; }
   border-radius: 999px;
   background: var(--primary);
   color: var(--text-dark);
-  font-weight: 800;
+  font-weight: 700;
 }
 .btn-pricing-cta:hover { background: var(--btn-gold); color: var(--text-dark); }
 
 .pricing-compare { padding: 20px; }
-.pricing-compare h2 { margin-bottom: 0; font-size: 24px; font-weight: 800; }
+.pricing-compare h2 { margin-bottom: 0; font-size: 24px; font-weight: 700; }
 .pricing-compare th { background: #FFF3CC; color: #3b3000; }
 .pricing-compare td,
 .pricing-compare th { padding: 12px 14px; }
@@ -1702,12 +1702,12 @@ body.sidebar-open { overflow: hidden; }
   flex-wrap: wrap;
   gap: 16px;
 }
-.pricing-cta h3 { margin: 0 0 6px; font-size: 26px; font-weight: 800; }
+.pricing-cta h3 { margin: 0 0 6px; font-size: 26px; font-weight: 700; }
 .pricing-cta p { margin: 0; color: #666; }
 .pricing-cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .account-page { background: linear-gradient(180deg, #FFF8E6 0%, #FFF5DE 100%); }
-.account-head h1 { font-size: 32px; font-weight: 800; margin-bottom: 6px; }
+.account-head h1 { font-size: 32px; font-weight: 700; margin-bottom: 6px; }
 .account-head p { margin-bottom: 0; color: #666; }
 .account-panel { padding: 22px; }
 .account-user-box { border-bottom: 1px solid #eee; padding-bottom: 18px; }
@@ -1723,7 +1723,7 @@ body.sidebar-open { overflow: hidden; }
   font-size: 30px;
   color: #4b3a00;
 }
-.account-user-box h3 { margin-bottom: 4px; font-size: 24px; font-weight: 800; }
+.account-user-box h3 { margin-bottom: 4px; font-size: 24px; font-weight: 700; }
 .account-user-box p { margin-bottom: 10px; color: #6c6c6c; }
 .account-membership {
   display: inline-block;
@@ -1748,7 +1748,7 @@ body.sidebar-open { overflow: hidden; }
 }
 .account-quick-links a:hover { background: #FFF2C3; color: #222; }
 .account-panel-head { margin-bottom: 14px; }
-.account-panel-head h2 { margin: 0; font-size: 24px; font-weight: 800; }
+.account-panel-head h2 { margin: 0; font-size: 24px; font-weight: 700; }
 .account-stat {
   border: 1px solid #ececec;
   border-radius: 10px;
@@ -1771,7 +1771,7 @@ body.sidebar-open { overflow: hidden; }
 }
 .buy-guide-modal-content .modal-title {
   font-size: 24px;
-  font-weight: 800;
+  font-weight: 700;
   color: #1f1f1f;
   text-align: center;
   width: 100%;
