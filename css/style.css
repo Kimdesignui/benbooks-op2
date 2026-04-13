@@ -624,6 +624,16 @@ button {
   height: 36px;
 }
 
+.vip-badge-link {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.vip-badge-link:hover {
+  opacity: 0.85;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
