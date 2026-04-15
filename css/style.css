@@ -5116,3 +5116,52 @@ a:hover,
   border-radius: 3px !important;
   margin: 8px auto 12px;
 }
+
+/* =============================================
+   HOTFIX: remove large-card shadows + hide format tag + enlarge covers
+   ============================================= */
+.book-card,
+.sidebar-section,
+.account-panel,
+.login-card,
+.pricing-card,
+.pricing-compare,
+.pricing-cta,
+.detail-sidebar-box,
+.detail-cover-box,
+.banner-img,
+.modal-content,
+.buy-guide-modal-content,
+.floating-btn {
+  box-shadow: none !important;
+}
+
+/* Hide format/type tag on book cards */
+.books-grid .book-type-badge,
+.books-scroll-wrap .book-type-badge,
+.books-scroll .book-type-badge,
+.book-card .book-type-badge {
+  display: none !important;
+}
+
+/* Increase cover size to fill gray panel */
+.books-grid .book-cover-wrapper,
+.books-scroll-wrap .book-cover-wrapper,
+.books-scroll .book-cover-wrapper {
+  padding: 8px !important;
+}
+
+.books-grid .book-cover,
+.books-scroll-wrap .book-cover,
+.books-scroll .book-cover {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+.books-grid .book-cover-fallback,
+.books-scroll-wrap .book-cover-fallback,
+.books-scroll .book-cover-fallback {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100% !important;
+}
