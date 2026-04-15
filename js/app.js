@@ -423,29 +423,25 @@ function renderBooks(filter) {
  * @returns {string} HTML string for the book card
  */
 function createBookCard(book) {
-  const typeLabel = book.type === 'Audio' ? 'Audio' : 'Ebook';
-  const typeTagSrc = normalizeImageUrl(book.type === 'Audio' ? 'assets/images/audio-tag.svg' : 'assets/images/ebook-tag.svg');
+  const fullTitle = String(book.title || '');
+  const titleAttr = fullTitle.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   const coverSrc = normalizeImageUrl(book.coverImage);
   validateImageUrl(book.coverImage);
 
   const cover = coverSrc
-    ? `<img src="${coverSrc}" alt="${book.title}" class="book-cover" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    ? `<img src="${coverSrc}" alt="${titleAttr}" class="book-cover" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
     : '';
-  const fallback = `<div class="book-cover-fallback" style="background:${book.coverColor || '#8B7355'};display:${coverSrc ? 'none' : 'flex'}"><span>${book.title}</span></div>`;
+  const fallback = `<div class="book-cover-fallback" style="background:${book.coverColor || '#8B7355'};display:${coverSrc ? 'none' : 'flex'}"><span>${fullTitle}</span></div>`;
 
   const vipTagSrc = normalizeImageUrl('assets/images/tag-hoi-vien.svg');
 
-  return `<div class="book-card" data-book-id="${book.id}">
+  return `<div class="book-card" data-book-id="${book.id}" title="${titleAttr}">
     <div class="book-cover-wrapper">
-      <div class="book-type-badge">
-        <img src="${typeTagSrc}" alt="" class="book-type-tag-icon" loading="lazy">
-        <span class="book-type-tag-text">${typeLabel}</span>
-      </div>
       ${cover}${fallback}
       <div class="book-vip-badge"><img src="${vipTagSrc}" alt="Hội viên" class="vip-tag-img" loading="lazy"></div>
     </div>
-    <div class="book-info"><div class="book-title">${book.title}</div></div>
+    <div class="book-info"><div class="book-title" title="${titleAttr}">${fullTitle}</div></div>
   </div>`;
 }
 

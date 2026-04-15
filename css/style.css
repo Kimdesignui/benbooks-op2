@@ -4946,7 +4946,7 @@ button:active,
 .book-type-tag-text,
 .book-type-badge .book-type-tag-text {
   color: #2f4f8f !important;
-  font-weight: 700 !important;
+  font-weight: 400 !important;
 }
 
 /* Shadow direction: light from top-left -> shadow to bottom-right */
@@ -5164,4 +5164,95 @@ a:hover,
   width: 100% !important;
   max-width: 100% !important;
   min-height: 100% !important;
+}
+
+/* =============================================
+   HOTFIX: card badges and cover proportions
+   ============================================= */
+/* Re-enable format tag above cover */
+.books-grid .book-type-badge,
+.books-scroll-wrap .book-type-badge,
+.books-scroll .book-type-badge,
+.book-card .book-type-badge {
+  display: inline-flex !important;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 4;
+}
+
+/* Membership tag wider (+20%) */
+.book-vip-badge .vip-tag-img {
+  height: 52.8px !important;
+  width: auto;
+}
+
+/* Cover smaller (-20%) */
+.books-grid .book-cover,
+.books-scroll-wrap .book-cover,
+.books-scroll .book-cover {
+  max-width: 80% !important;
+  max-height: 80% !important;
+}
+
+.books-grid .book-cover-fallback,
+.books-scroll-wrap .book-cover-fallback,
+.books-scroll .book-cover-fallback {
+  width: 80% !important;
+  max-width: 80% !important;
+  min-height: 80% !important;
+}
+
+/* =============================================
+   HOTFIX: category cards white + 1px separators
+   ============================================= */
+.sidebar-section,
+.details-page-sidebar .sidebar-section,
+.filter-section,
+.detail-sidebar-box .sidebar-section {
+  background: #ffffff !important;
+}
+
+.sidebar-section-title,
+.details-page-sidebar .sidebar-section-title,
+.filter-section .section-header,
+.yellow-header-box .yellow-header {
+  background: #ffffff !important;
+}
+
+.sidebar .accordion-item,
+.details-page-sidebar .accordion-item,
+.sidebar .sidebar-link,
+.details-page-sidebar .sidebar-link {
+  border-bottom: 1px solid #e5e5e5 !important;
+}
+
+/* Do not duplicate separator lines for child links */
+.sidebar .accordion-body .sidebar-link,
+.details-page-sidebar .accordion-body .sidebar-link {
+  border-bottom: none !important;
+}
+
+/* Keep separator only for top-level category rows (no extra child separators) */
+.sidebar .accordion-item,
+.details-page-sidebar .accordion-item {
+  border-bottom: none !important;
+}
+
+.sidebar .accordion-button,
+.details-page-sidebar .accordion-button {
+  border-bottom: 1px solid #e5e5e5 !important;
+}
+
+.sidebar .accordion-body,
+.details-page-sidebar .accordion-body {
+  border-bottom: none !important;
+}
+
+/* Force remove format/type tag on all book items */
+.book-card .book-type-badge,
+.books-grid .book-type-badge,
+.books-scroll-wrap .book-type-badge,
+.books-scroll .book-type-badge {
+  display: none !important;
 }
