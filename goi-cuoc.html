@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/svg+xml" href="assets/images/benito-logo-short.svg">
 </head>
-<body>
+<body class="page-pricing-plus">
   <header class="site-header" id="site-header">
     <div class="container-1440">
       <div class="header-inner">
@@ -386,11 +386,11 @@
   <script src="js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const modalEl = document.getElementById('buyGuideModal');
-      const messageEl = document.getElementById('buy-guide-message');
-      if (!modalEl || !messageEl || typeof bootstrap === 'undefined') return;
-
-      const guideModal = new bootstrap.Modal(modalEl);
+      document.querySelectorAll('a.btn-pricing-cta[href^="/checkout/payment-vip/"]').forEach(function (link) {
+        const m = link.getAttribute('href').match(/\/checkout\/payment-vip\/(\d+)/i);
+        if (!m) return;
+        link.setAttribute('href', `checkout.html?vip=${encodeURIComponent(m[1])}`);
+      });
 
       document.querySelectorAll('.btn-buy-package').forEach(function (btn) {
         btn.addEventListener('click', function (event) {
@@ -398,9 +398,8 @@
           const pkg = btn.getAttribute('data-package');
           const price = btn.getAttribute('data-price');
           const period = btn.getAttribute('data-period');
-
-          messageEl.textContent = `Quý khách vui lòng gửi yêu cầu đăng ký DV ${pkg} (${price}/${period}). Để xác nhận đăng ký và gia hạn DV, soạn DKP ${pkg} gửi 888 (hoặc DKM ${pkg} gửi 888).`;
-          guideModal.show();
+          const target = `checkout.html?pkg=${encodeURIComponent(pkg || '')}&price=${encodeURIComponent(price || '')}&period=${encodeURIComponent(period || '')}`;
+          window.location.href = target;
         });
       });
     });
